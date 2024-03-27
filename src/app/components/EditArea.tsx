@@ -124,6 +124,8 @@ const EditArea: React.FC = () => {
   //ドラッグが終わればゴミ箱を非表示
   const handleDragEnd = (e: React.DragEvent<HTMLImageElement>) => {
     setIsDragging(false);
+    const iconsArea = iconsAreaRef.current;
+    iconsArea.style.zIndex = 0;
   };
 
   //アイコンの削除処理
@@ -154,12 +156,12 @@ const EditArea: React.FC = () => {
           onDragStart={(e) => handleDragStart(e)}
           onDragEnd={(e) => handleDragEnd(e)}
           src={image.src}
-          className="size-6 z-30 cursor-grab "
           style={{
             position: "absolute",
             left: `${image.x}px`,
             top: `${image.y}px`,
           }}
+          className={`size-6 z-30 cursor-grab `}
           alt=""
         />
       ))}

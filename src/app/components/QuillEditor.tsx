@@ -5,6 +5,7 @@ import Quill from "quill";
 import "quill/dist/quill.snow.css"; // Quillのスタイルシート
 import "quill/dist/quill.bubble.css"; // Quillのスタイルシート
 import "../styles/quill.scss";
+import Color from "./color/Color";
 
 const toolbarOptions = [
   [
@@ -86,7 +87,18 @@ const QuillEditor = () => {
 
     const buttonContainer = document.createElement("span");
     buttonContainer.classList.add("ql-formats");
-    const colors = ["coral", "lightskyblue", "gold", "lightgreen", "lightgray"];
+    const colors = [
+      Color.red,
+      Color.cyan,
+      Color.green,
+      Color.orange,
+      Color.yellow,
+      Color.blue,
+      Color.purple,
+      Color.pink,
+      Color.slate,
+      Color.neutral,
+    ];
     colors.forEach((el) => {
       const customButton = document.createElement("button");
       customButton.value = el;
@@ -96,7 +108,7 @@ const QuillEditor = () => {
       customButton.style.backgroundColor = el;
       customButton.onclick = (e) => {
         // ボタンがクリックされたときの動作を定義
-        var color = e.target.value;
+        const color = e.target.value;
 
         quill.format("background", color);
         console.log("カスタムボタンがクリックされました");
@@ -106,6 +118,7 @@ const QuillEditor = () => {
 
     // カスタムボタンをツールバーに追加
     const toolbar = document.querySelector(".ql-toolbar");
+
     const firstChild = toolbar.firstChild;
 
     // カスタムボタンをツールバーの先頭に追加

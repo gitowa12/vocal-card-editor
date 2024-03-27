@@ -1,5 +1,6 @@
 import { log } from "console";
 import React, { useEffect, useState } from "react";
+import Color from "./color/Color";
 
 type IconList = {
   name: string;
@@ -27,7 +28,7 @@ const SideBar = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      const fixedScrollPosition = 160; // 例えばページ上部から200pxの位置
+      const fixedScrollPosition = 85; // 例えばページ上部から200pxの位置
       if (window.scrollY > fixedScrollPosition) {
         setIsFixed(true);
       } else {
@@ -109,7 +110,7 @@ const SideBar = () => {
   return (
     <div className="mt-[84px]">
       {/* <div id="Advertisement " className="w-[300px] h-[300px] bg-neutral-300"></div> */}
-      <div className={` w-[300px] flex flex-col gap-y-3 ${isFixed ? "fixed top-[12px] " : ""} `}>
+      <div className={` w-[300px] flex flex-col gap-y-3 ${isFixed ? "fixed top-[87px] " : ""} `}>
         {/* <div className="bg-white border border-neutral-300 p-3">
           <p className="text-xl">テキストサイズ</p>
           <button id="16px" className="text-xl" onClick={handleClick}>
@@ -134,7 +135,37 @@ const SideBar = () => {
             </div>
           ))}
         </div>
-        <div></div>
+        <div
+          id="Highlight "
+          className="flex flex-col gap-2 p-3 bg-white border border-neutral-300 "
+        >
+          <p className="text-xl font-bold">ガイド</p>
+          <p className="text-lg">カラー</p>
+          <p style={{ backgroundColor: Color.red }} className="p-1 ">
+            アクセント
+          </p>
+          <p style={{ backgroundColor: Color.cyan }} className="p-1 ">
+            ファルセット
+          </p>
+          <p style={{ backgroundColor: Color.green }} className="p-1 ">
+            ビブラート
+          </p>
+          <p style={{ backgroundColor: Color.yellow }} className="p-1 ">
+            ロングトーン
+          </p>
+          <p style={{ backgroundColor: Color.purple }} className="p-1 ">
+            ウィスパー
+          </p>
+          <p style={{ backgroundColor: Color.blue }} className="p-1 ">
+            フォール
+          </p>
+          <p style={{ backgroundColor: Color.slate }} className="p-1 ">
+            エッジボイス
+          </p>
+          <p style={{ backgroundColor: Color.neutral }} className="p-1 ">
+            がなり
+          </p>
+        </div>
       </div>
     </div>
   );
