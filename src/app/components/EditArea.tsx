@@ -1,9 +1,13 @@
+"use client";
+
 import React, { createElement, useEffect, useRef, useState } from "react";
-import TextArea from "./TextArea";
 import { v4 as uuidv4 } from "uuid";
-import Area from "./Area";
-import { error, log } from "console";
-import { after } from "node:test";
+import dynamic from "next/dynamic";
+// import QuillEditor from "../components/QuillEditor";
+// Quillエディタをクライアントサイドでのみ読み込む
+const QuillEditor = dynamic(() => import("../components/QuillEditor"), {
+  ssr: false,
+});
 
 type ImageInfo = {
   id: string;
@@ -19,8 +23,7 @@ const EditArea: React.FC = () => {
   const textAreaRef = useRef<HTMLDivElement | null>(null);
   const parentNodeRef = useRef<HTMLDivElement | null>(null);
   const deleteBoxRef = useRef<HTMLDivElement | null>(null);
-  const toolBarRef = useRef<HTMLDivElement | null>(null);
-  const [color, setColor] = useState("");
+  const quillParentRef = useRef<HTMLDivElement | null>(null);
 
   //MutationObserverを使って
   //textAreaの高さを監視して、iconsAreaの高さもtextAreaに同期させる
@@ -31,26 +34,26 @@ const EditArea: React.FC = () => {
     subtree: true,
   };
   useEffect(() => {
-    if (textAreaRef.current) {
-      const textAreaHeightObserver = new MutationObserver((record, observer) => {
-        const textAreaHeight = textAreaRef.current?.offsetHeight;
-        const iconsArea = iconsAreaRef.current;
+    //Quill内のテキストに合わせてページの高さを変更する処理
+    console.log(quillParentRef.current);
+    if (quillParentRef.current) {
+      const quillParentHeightObserver = new MutationObserver((record, observer) => {
+        // const textAreaHeight = textAreaRef.current?.offsetHeight;
+        const quillParentHeight = quillParentRef.current?.clientHeight;
         const parentNode = parentNodeRef.current;
-        if (iconsArea) {
-          iconsArea.style.height = `${textAreaHeight}px`;
-        }
+        const iconsArea = iconsAreaRef.current;
         if (parentNode) {
-          parentNode.style.height = `${textAreaHeight}px`;
+          parentNode.style.height = `${quillParentHeight}px`;
+        }
+        if (iconsArea) {
+          iconsArea.style.height = `${quillParentHeight}px`;
         }
       });
-      textAreaHeightObserver.observe(textAreaRef.current, config);
-
+      quillParentHeightObserver.observe(quillParentRef.current, config);
       // クリーンアップ関数でobserverを切断する
-      return () => textAreaHeightObserver.disconnect();
+      return () => quillParentHeightObserver.disconnect();
     }
   }, []);
-
-  // const toolBar = document.createElement(div);
 
   useEffect(() => {}, []); // 空の依存配列を追加
 
@@ -58,159 +61,128 @@ const EditArea: React.FC = () => {
     e.preventDefault();
   };
 
-  //iconlistからドラッグしてきた要素の配置
+  //アイコンドロップ時の処理
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    const firstTime = e.dataTransfer.getData("firstTime");
+    console.log(firstTime);
+
+    const imageId = e.dataTransfer.getData("imageId");
     const imageSrc = e.dataTransfer.getData("imageSrc");
-    // console.log(e);
-    if (imageSrc) {
-      const newImage = {
-        id: uuidv4(),
-        src: imageSrc,
-        x: e.nativeEvent.offsetX,
-        y: e.nativeEvent.offsetY,
-      };
-      setImages([...images, newImage]);
-      // console.log(newImage);
+    const imageX = parseFloat(e.dataTransfer.getData("imageX"));
+    const imageY = parseFloat(e.dataTransfer.getData("imageY"));
+    const X = e.nativeEvent.offsetX - imageX;
+    const Y = e.nativeEvent.offsetY - imageY;
+
+    //アイコンリストからのドロップ
+    if (firstTime === "yes") {
+      if (imageSrc) {
+        const newImage = {
+          id: uuidv4(),
+          src: imageSrc,
+          x: X,
+          y: Y,
+        };
+        setImages([...images, newImage]);
+      }
+      e.dataTransfer.setData("firstTime", "no");
     }
+    //再配置のドロップ
+    if (firstTime === "no") {
+      setImages(
+        images.map((image) => {
+          if (image.id === imageId) {
+            return { ...image, x: X, y: Y };
+          } else {
+            return image;
+          }
+        })
+      );
+    }
+    const iconsArea = iconsAreaRef.current;
+    iconsArea.style.zIndex = 0;
   };
 
-  //削除用にIDをdataTransferにセット
+  //ドラッグを始めた要素の情報をdataTransferにセット
   const handleDragStart = (e: React.DragEvent<HTMLImageElement>) => {
-    const target = e.target as HTMLImageElement;
-    const id = target.id;
-    e.dataTransfer.setData("id", id);
-    //ドラッグ中はゴミ箱を表示
-    setIsDragging(true);
+    //アイコンエリアを前面に移動
+    const iconsArea = iconsAreaRef.current;
+    iconsArea.style.zIndex = 20;
+
+    //再配置用にカーソルと画像の相対距離を計算
+    const targetRect = e.target.getBoundingClientRect();
+    const imageX = e.clientX - targetRect.left;
+    const imageY = e.clientY - targetRect.top;
+
+    e.dataTransfer.setData("firstTime", "no");
+    e.dataTransfer.setData("imageId", e.target.id);
+    e.dataTransfer.setData("imageX", imageX);
+    e.dataTransfer.setData("imageY", imageY);
+
+    setIsDragging(true); //ドラッグ中はゴミ箱を表示
   };
 
-  //ドラッグ終了時にアイコンのいち情報を更新
+  //ドラッグが終わればゴミ箱を非表示
   const handleDragEnd = (e: React.DragEvent<HTMLImageElement>) => {
-    //アイコンのidと移動後の位置情報を取得 ※位置情報は移動前位置からの相対位置
-    const target = e.target as HTMLImageElement;
-    const id = target.id;
-    const movedX = e.nativeEvent.offsetX;
-    const movedY = e.nativeEvent.offsetY;
-    updateImagePosition(id, movedX, movedY);
-
-    //ドラッグが終わればゴミ箱を非表示
     setIsDragging(false);
-
-    // const deleteBox = deleteBoxRef.current;
-    // deleteBox.className = "transition bg-red-400 rounded-lg w-16 h-16 fixed top-[150px] left-1/2 ";
   };
 
-  const updateImagePosition = (id: string, addX: number, addY: number) => {
-    //idでstateから検索して、位置情報を更新してセットする
-    setImages(
-      images.map((image) => {
-        if (image.id === id) {
-          // console.log(image);
-          const newX = image.x + addX;
-          const newY = image.y + addY;
-
-          return { ...image, x: newX, y: newY };
-        } else {
-          return image;
-        }
-      })
-    );
-  };
-
+  //アイコンの削除処理
   const handleDeleteDrop = (e: React.DragEvent<HTMLDivElement>) => {
-    const id = e.dataTransfer.getData("id");
-    // console.log(id);
+    const id = e.dataTransfer.getData("imageId");
     setImages(images.filter((image) => image.id !== id));
-    //ゴミ箱に入ったら非表示
-    setIsDragging(false);
-  };
+    setIsDragging(false); //ゴミ箱に入ったら非表示
 
-  const handlePaste = (e) => {
-    e.preventDefault();
-    const text = (e.clipboardData || window.clipboardData).getData("text");
-
-    // 改行でテキストを分割
-    const lines = text.split(/\r?\n/);
-
-    const selection = document.getSelection();
-    if (!selection.rangeCount) return; // カーソル位置がない場合は終了
-    let range = selection.getRangeAt(0);
-    range.deleteContents(); // 選択範囲をクリア
-
-    // 各行に対して処理
-    lines.forEach((line) => {
-      // 新しいdiv要素を作成
-      const newDiv = document.createElement("div");
-      // 新しいspan要素を作成し、テキストを追加
-      const newSpan = document.createElement("span");
-      newSpan.innerText = line.length === 0 ? "\u00A0" : line; // 空行の場合はノーブレークスペース
-
-      // spanをdivに追加
-      newDiv.appendChild(newSpan);
-
-      // 新しいdivに一意のIDを割り当て（uuidv4()関数の実装が必要）
-      newDiv.id = uuidv4();
-
-      // 現在のRangeの終わりに新しいdivを挿入
-      range.insertNode(newDiv);
-      range = document.createRange(); // 新しいRangeを作成
-      range.setStartAfter(newDiv); // 新しいdivの後ろにカーソルを移動
-    });
-
-    // 最後に挿入されたdivの後ろにカーソルを更新
-    selection.removeAllRanges(); // 現在の選択をクリア
-    selection.addRange(range); // 新しい範囲を選択範囲として設定
+    const iconsArea = iconsAreaRef.current;
+    iconsArea.style.zIndex = 0;
   };
 
   return (
-    <div>
-      <div ref={parentNodeRef} className="relative w-[700px] min-h-[700px] my-3 overflow-hidden">
-        <div
-          ref={iconsAreaRef}
-          id="editor"
-          className="absolute z-0  h-fit w-[700px]  min-h-[700px]  "
-          // contentEditable="true"
-          onDragOver={handleDragOver}
-          onDrop={(e) => handleDrop(e)}
-        ></div>
-        {images.map((image, index) => (
-          <img
-            key={index}
-            id={image.id}
-            draggable="true"
-            onDragStart={(e) => handleDragStart(e)}
-            onDragEnd={(e) => handleDragEnd(e)}
-            src={image.src}
-            className="w-3 z-30"
-            style={{
-              position: "absolute",
-              left: `${image.x}px`,
-              top: `${image.y}px`,
-            }}
-            alt=""
-          />
-        ))}
-        <div
-          ref={textAreaRef}
-          id="textArea"
-          contentEditable="true"
-          onDrop={(e) => e.preventDefault()}
-          onPaste={(e) => handlePaste(e)}
-          // onChange={console.log("Hello")}
-          className=" z-10 bg-white absolute w-[700px] min-h-[700px] outline-none  p-2"
-        ></div>
-        <div
-          ref={deleteBoxRef}
-          className={`z-30 transition-all duration-300 ease-in-out bg-red-400 rounded-xl p-2 h-10 fixed left-1/2 ${
-            isDragging ? "top-[50px]" : "-top-[50px]" // ドラッグ中のみ表示
-          }`}
-          onDragOver={(e) => e.preventDefault()}
-          onDrop={(e) => handleDeleteDrop(e)}
-        >
-          ゴミ箱
-        </div>
+    <div ref={parentNodeRef} className="relative min-h-[700px] my-3 ">
+      <div
+        ref={iconsAreaRef}
+        id="iconsArea"
+        className="absolute z-0 w-[800px] min-h-[700px] overflow-hidden "
+        // contentEditable="true"
+        onDragOver={handleDragOver}
+        onDrop={(e) => handleDrop(e)}
+      ></div>
+      {images.map((image, index) => (
+        <img
+          key={index}
+          id={image.id}
+          draggable="true"
+          onDragStart={(e) => handleDragStart(e)}
+          onDragEnd={(e) => handleDragEnd(e)}
+          src={image.src}
+          className="size-6 z-30 cursor-grab "
+          style={{
+            position: "absolute",
+            left: `${image.x}px`,
+            top: `${image.y}px`,
+          }}
+          alt=""
+        />
+      ))}
+
+      <div ref={quillParentRef} className="z-10 absolute bg-white w-[800px] ">
+        <QuillEditor></QuillEditor>
+      </div>
+
+      <div
+        ref={deleteBoxRef}
+        className={`z-30 transition-all duration-300 ease-in-out border-2 border-red-600 bg-white rounded-full p-2 fixed left-1/2 ${
+          isDragging ? "top-[80px]" : "-top-[80px]" // ドラッグ中のみ表示
+        }`}
+        onDragOver={handleDragOver}
+        onDrop={(e) => handleDeleteDrop(e)}
+      >
+        <img src="http://localhost:3000/ゴミ箱-赤.png" className="size-8" alt="" />
       </div>
     </div>
   );
 };
 
 export default EditArea;
+
+const hoge = document.getElementById("756f4b76-999d-46ea-ae18-8bcd00ee0196");
+console.log(hoge?.style.left);

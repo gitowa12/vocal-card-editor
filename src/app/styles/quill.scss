@@ -1,0 +1,89 @@
+// /* Quill Bubble テーマのツールバーのカスタムスタイル */
+
+// .ql-bubble * {
+// }
+
+.ql-editor {
+  font-size: 20px;
+}
+
+.ql-bubble {
+  .ql-toolbar {
+    background-color: #444;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 4px;
+
+    .ql-formats:first-child {
+      margin-left: 8px;
+    }
+    .ql-formats:last-child {
+      margin-right: 8px;
+    }
+
+    .ql-formats {
+      margin: 0;
+      margin: 4px 0 4px 0;
+
+      .ql-picker-label {
+      }
+      .ql-picker-label::before {
+        display: inline-block;
+        line-height: 26px;
+      }
+    }
+
+    button {
+      width: 24px;
+    }
+  }
+  .ql-picker-options {
+    padding: 0;
+    .ql-picker-item {
+      padding: 0 4px;
+    }
+  }
+}
+
+// .ql-color:hover {
+//   background-color: #ddd;
+//   color: black;
+// }
+
+// .ql-background:hover {
+//   background-color: #ddd;
+//   color: black;
+// }
+
+// .ql-bubble .ql-stroke {
+//   stroke: black; /* ツールバーのアイコンの線の色を変更 */
+// }
+// .ql-toolbar button:hover .ql-stroke,
+// .ql-toolbar button:hover .ql-fill {
+//   stroke: inherit; /* ホバー時も通常時と同じ線の色を維持 */
+//   fill: inherit; /* ホバー時も通常時と同じ塗りつぶしの色を維持 */
+// }
+
+// .ql-bubble .ql-fill {
+//   fill: black; /* ツールバーのアイコンの塗りつぶし色を変更 */
+// }
+
+// /* ツールバーのボタンのホバースタイル */
+// .ql-bubble .ql-toolbar button:hover {
+//   background-color: #bbb; /* ホバー時の背景色 */
+// }
+
+// /* アクティブなボタンのスタイル */
+// .ql-bubble .ql-toolbar .ql-active {
+//   background-color: #e2e2e2; /* アクティブなボタンの背景色 */
+// }
+
+// .ql-bubble .ql-picker.ql-expanded .ql-picker-options {
+//   background-color: #fff;
+//   color: black;
+
+//   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+// }
+
+// .ql-bubble .ql-picker-options .ql-picker-item {
+//   border-bottom: 1px solid #ddd;
+// }
