@@ -20,7 +20,6 @@ const EditArea: React.FC = () => {
   const [images, setImages] = useState<ImageInfo[]>([]);
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const iconsAreaRef = useRef<HTMLDivElement | null>(null);
-  const textAreaRef = useRef<HTMLDivElement | null>(null);
   const parentNodeRef = useRef<HTMLDivElement | null>(null);
   const deleteBoxRef = useRef<HTMLDivElement | null>(null);
   const quillParentRef = useRef<HTMLDivElement | null>(null);
@@ -64,16 +63,14 @@ const EditArea: React.FC = () => {
   //アイコンドロップ時の処理
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
     const firstTime = e.dataTransfer.getData("firstTime");
-    console.log(firstTime);
-
     const imageId = e.dataTransfer.getData("imageId");
     const imageSrc = e.dataTransfer.getData("imageSrc");
-    const imageX = parseFloat(e.dataTransfer.getData("imageX"));
-    const imageY = parseFloat(e.dataTransfer.getData("imageY"));
-    const X = e.nativeEvent.offsetX - imageX;
-    const Y = e.nativeEvent.offsetY - imageY;
+    const imageX = e.dataTransfer.getData("imageX");
+    const imageY = e.dataTransfer.getData("imageY");
+    const X = e.nativeEvent.offsetX - parseFloat(imageX);
+    const Y = e.nativeEvent.offsetY - parseFloat(imageY);
 
-    //アイコンリストからのドロップ
+    //アイコンリストからのドロップ（初回設置）
     if (firstTime === "yes") {
       if (imageSrc) {
         const newImage = {
@@ -98,25 +95,25 @@ const EditArea: React.FC = () => {
         })
       );
     }
-    const iconsArea = iconsAreaRef.current;
-    iconsArea.style.zIndex = 0;
+
+    refChangeZindex(iconsAreaRef, 0);
   };
 
   //ドラッグを始めた要素の情報をdataTransferにセット
   const handleDragStart = (e: React.DragEvent<HTMLImageElement>) => {
     //アイコンエリアを前面に移動
-    const iconsArea = iconsAreaRef.current;
-    iconsArea.style.zIndex = 20;
+    refChangeZindex(iconsAreaRef, 20);
 
     //再配置用にカーソルと画像の相対距離を計算
-    const targetRect = e.target.getBoundingClientRect();
+    const target = e.target as HTMLImageElement;
+    const targetRect = target.getBoundingClientRect();
     const imageX = e.clientX - targetRect.left;
     const imageY = e.clientY - targetRect.top;
 
     e.dataTransfer.setData("firstTime", "no");
-    e.dataTransfer.setData("imageId", e.target.id);
-    e.dataTransfer.setData("imageX", imageX);
-    e.dataTransfer.setData("imageY", imageY);
+    e.dataTransfer.setData("imageId", target.id);
+    e.dataTransfer.setData("imageX", imageX.toString());
+    e.dataTransfer.setData("imageY", imageY.toString());
 
     setIsDragging(true); //ドラッグ中はゴミ箱を表示
   };
@@ -124,8 +121,7 @@ const EditArea: React.FC = () => {
   //ドラッグが終わればゴミ箱を非表示
   const handleDragEnd = (e: React.DragEvent<HTMLImageElement>) => {
     setIsDragging(false);
-    const iconsArea = iconsAreaRef.current;
-    iconsArea.style.zIndex = 0;
+    refChangeZindex(iconsAreaRef, 0);
   };
 
   //アイコンの削除処理
@@ -133,9 +129,15 @@ const EditArea: React.FC = () => {
     const id = e.dataTransfer.getData("imageId");
     setImages(images.filter((image) => image.id !== id));
     setIsDragging(false); //ゴミ箱に入ったら非表示
+    refChangeZindex(iconsAreaRef, 0);
+  };
 
-    const iconsArea = iconsAreaRef.current;
-    iconsArea.style.zIndex = 0;
+  //refとzindexの数値を指定して処理する関数。何度も使うから関数化。
+  const refChangeZindex = (ref: React.RefObject<HTMLElement>, zIndexValue: number) => {
+    const element = ref.current;
+    if (element) {
+      element.style.zIndex = zIndexValue.toString();
+    }
   };
 
   return (

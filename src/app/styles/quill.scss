@@ -5,6 +5,11 @@
 
 .ql-editor {
   font-size: 20px;
+
+  sub,
+  sup {
+    font-size: 70%;
+  }
 }
 
 .ql-bubble {

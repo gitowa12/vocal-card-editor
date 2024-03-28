@@ -1,5 +1,7 @@
+"use client";
+
 import { log } from "console";
-import React, { useEffect, useState } from "react";
+import React, { ReactHTMLElement, useEffect, useState } from "react";
 import Color from "./color/Color";
 
 type IconList = {
@@ -43,67 +45,46 @@ const SideBar = () => {
     };
   }, []);
 
-  // const handleDragStart = (e: React.DragEvent<HTMLDivElement>) => {
-  //   const target = e.target as HTMLImageElement;
-  //   const imageSrc = target.src; // ドラッグされた画像のsrcを取得
-  //   e.dataTransfer.setData("imageSrc", imageSrc); // 転送データに画像のsrcをセット
-  //   // const imagesrc = e.dataTransfer.getData(imageSrc);
-  //   // console.log(imageSrc);
-  //   const editArea = document.getElementById("editor");
-  //   if (editArea) {
-  //     editArea.style.zIndex = "30";
-  //   }
-  //   console.log("動いてるよ");
-  //   // console.log(editArea);
-  //   // setEditLayer(true)
-  // };
   const handleDragStart = (e: React.DragEvent<HTMLDivElement>) => {
-    const target = e.target;
-    console.log(target);
-    console.log(e.clientX);
-
-    const targetRect = e.target.getBoundingClientRect();
-    // console.log(targetRect.left);
+    const target = e.target as HTMLImageElement;
+    const targetRect = target.getBoundingClientRect();
     const imageX = e.clientX - targetRect.left;
-    // console.log(imageX);
     const imageY = e.clientY - targetRect.top;
 
     const imageSrc = target.src; // ドラッグされた画像のsrcを取得
-    e.dataTransfer.setData("firstTime", "yes");
+    e.dataTransfer.setData("firstTime", "yes"); //アイコンリストからのドラッグなので、初回フラグをセット
     e.dataTransfer.setData("imageSrc", imageSrc); // 転送データに画像のsrcをセット
-    e.dataTransfer.setData("imageX", imageX); // 転送データに画像のsrcをセット
-    e.dataTransfer.setData("imageY", imageY); // 転送データに画像のsrcをセット
+    e.dataTransfer.setData("imageX", imageX.toString()); // 転送データに画像のsrcをセット
+    e.dataTransfer.setData("imageY", imageY.toString()); // 転送データに画像のsrcをセット
 
     const editArea = document.getElementById("iconsArea");
     if (editArea) {
       editArea.style.zIndex = "20";
     }
-    console.log("動いてるよ");
-    // console.log(editArea);
-    // setEditLayer(true)
+    // console.log("動いてるよ");
   };
 
   //全体のテキストサイズの調整
-  const handleClick = (e) => {
+  const handleClick = (e: React.MouseEvent<HTMLButtonElement>) => {
     try {
-      const qlEditor = document.querySelector(".ql-editor");
+      const qlEditor = document.querySelector(".ql-editor") as HTMLElement | null;
 
       if (!qlEditor) {
         console.error("ql-editorクラスを持つ要素が見つかりません。");
         return;
       }
 
-      qlEditor.style.fontSize = "";
-      if (e.target.id === "16px") {
+      qlEditor.style.fontSize = ""; // 初期化（空文字列を設定）
+      if (e.currentTarget.id === "16px") {
         qlEditor.style.fontSize = "16px";
         return;
       }
-      if (e.target.id === "20px") {
+      if (e.currentTarget.id === "20px") {
         qlEditor.style.fontSize = "20px";
         return;
       }
     } catch {
-      console.error(error);
+      console.error(Error);
     }
   };
 
@@ -135,36 +116,17 @@ const SideBar = () => {
             </div>
           ))}
         </div>
+
         <div
           id="Highlight "
           className="flex flex-col gap-2 p-3 bg-white border border-neutral-300 "
         >
-          <p className="text-xl font-bold">ガイド</p>
-          <p className="text-lg">カラー</p>
-          <p style={{ backgroundColor: Color.red }} className="p-1 ">
-            アクセント
-          </p>
-          <p style={{ backgroundColor: Color.cyan }} className="p-1 ">
-            ファルセット
-          </p>
-          <p style={{ backgroundColor: Color.green }} className="p-1 ">
-            ビブラート
-          </p>
-          <p style={{ backgroundColor: Color.yellow }} className="p-1 ">
-            ロングトーン
-          </p>
-          <p style={{ backgroundColor: Color.purple }} className="p-1 ">
-            ウィスパー
-          </p>
-          <p style={{ backgroundColor: Color.blue }} className="p-1 ">
-            フォール
-          </p>
-          <p style={{ backgroundColor: Color.slate }} className="p-1 ">
-            エッジボイス
-          </p>
-          <p style={{ backgroundColor: Color.neutral }} className="p-1 ">
-            がなり
-          </p>
+          <p className="text-xl font-bold">カラーガイド</p>
+          {Color.map((el) => (
+            <p style={{ backgroundColor: el.colorCode }} className="p-1 ">
+              {el.name}
+            </p>
+          ))}
         </div>
       </div>
     </div>
