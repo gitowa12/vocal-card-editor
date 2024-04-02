@@ -5,13 +5,14 @@ import { v4 as uuidv4 } from "uuid";
 import dynamic from "next/dynamic";
 // import QuillEditor from "../components/QuillEditor";
 // Quillエディタをクライアントサイドでのみ読み込む
-const QuillEditor = dynamic(() => import("../components/QuillEditor"), {
+const QuillEditor = dynamic(() => import("./QuillEditor/QuillEditor"), {
   ssr: false,
 });
 
 type ImageInfo = {
   id: string;
   src: string;
+  className: string;
   x: number;
   y: number;
 };
@@ -20,10 +21,10 @@ const EditArea: React.FC = () => {
   const [images, setImages] = useState<ImageInfo[]>([]);
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const iconsAreaRef = useRef<HTMLDivElement | null>(null);
-  const textAreaRef = useRef<HTMLDivElement | null>(null);
   const parentNodeRef = useRef<HTMLDivElement | null>(null);
   const deleteBoxRef = useRef<HTMLDivElement | null>(null);
   const quillParentRef = useRef<HTMLDivElement | null>(null);
+  console.log(images);
 
   //MutationObserverを使って
   //textAreaの高さを監視して、iconsAreaの高さもtextAreaに同期させる
@@ -64,21 +65,23 @@ const EditArea: React.FC = () => {
   //アイコンドロップ時の処理
   const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
     const firstTime = e.dataTransfer.getData("firstTime");
-    console.log(firstTime);
-
     const imageId = e.dataTransfer.getData("imageId");
     const imageSrc = e.dataTransfer.getData("imageSrc");
-    const imageX = parseFloat(e.dataTransfer.getData("imageX"));
-    const imageY = parseFloat(e.dataTransfer.getData("imageY"));
-    const X = e.nativeEvent.offsetX - imageX;
-    const Y = e.nativeEvent.offsetY - imageY;
+    const imageClassName = e.dataTransfer.getData("imageClassName");
+    console.log(imageClassName);
 
-    //アイコンリストからのドロップ
+    const imageX = e.dataTransfer.getData("imageX");
+    const imageY = e.dataTransfer.getData("imageY");
+    const X = e.nativeEvent.offsetX - parseFloat(imageX);
+    const Y = e.nativeEvent.offsetY - parseFloat(imageY);
+
+    //アイコンリストからのドロップ（初回設置）
     if (firstTime === "yes") {
       if (imageSrc) {
         const newImage = {
           id: uuidv4(),
           src: imageSrc,
+          className: imageClassName,
           x: X,
           y: Y,
         };
@@ -98,25 +101,25 @@ const EditArea: React.FC = () => {
         })
       );
     }
-    const iconsArea = iconsAreaRef.current;
-    iconsArea.style.zIndex = 0;
+
+    refChangeZindex(iconsAreaRef, 0);
   };
 
   //ドラッグを始めた要素の情報をdataTransferにセット
   const handleDragStart = (e: React.DragEvent<HTMLImageElement>) => {
     //アイコンエリアを前面に移動
-    const iconsArea = iconsAreaRef.current;
-    iconsArea.style.zIndex = 20;
+    refChangeZindex(iconsAreaRef, 20);
 
     //再配置用にカーソルと画像の相対距離を計算
-    const targetRect = e.target.getBoundingClientRect();
+    const target = e.target as HTMLImageElement;
+    const targetRect = target.getBoundingClientRect();
     const imageX = e.clientX - targetRect.left;
     const imageY = e.clientY - targetRect.top;
 
     e.dataTransfer.setData("firstTime", "no");
-    e.dataTransfer.setData("imageId", e.target.id);
-    e.dataTransfer.setData("imageX", imageX);
-    e.dataTransfer.setData("imageY", imageY);
+    e.dataTransfer.setData("imageId", target.id);
+    e.dataTransfer.setData("imageX", imageX.toString());
+    e.dataTransfer.setData("imageY", imageY.toString());
 
     setIsDragging(true); //ドラッグ中はゴミ箱を表示
   };
@@ -124,6 +127,7 @@ const EditArea: React.FC = () => {
   //ドラッグが終わればゴミ箱を非表示
   const handleDragEnd = (e: React.DragEvent<HTMLImageElement>) => {
     setIsDragging(false);
+    refChangeZindex(iconsAreaRef, 0);
   };
 
   //アイコンの削除処理
@@ -131,58 +135,87 @@ const EditArea: React.FC = () => {
     const id = e.dataTransfer.getData("imageId");
     setImages(images.filter((image) => image.id !== id));
     setIsDragging(false); //ゴミ箱に入ったら非表示
+    refChangeZindex(iconsAreaRef, 0);
+  };
 
-    const iconsArea = iconsAreaRef.current;
-    iconsArea.style.zIndex = 0;
+  //refとzindexの数値を指定して処理する関数。何度も使うから関数化。
+  const refChangeZindex = (ref: React.RefObject<HTMLElement>, zIndexValue: number) => {
+    const element = ref.current;
+    if (element) {
+      element.style.zIndex = zIndexValue.toString();
+    }
+  };
+
+  const handleTitleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    refChangeZindex(iconsAreaRef, 0);
   };
 
   return (
-    <div ref={parentNodeRef} className="relative min-h-[700px] my-3 ">
-      <div
-        ref={iconsAreaRef}
-        id="iconsArea"
-        className="absolute z-0 w-[800px] min-h-[700px] overflow-hidden "
-        // contentEditable="true"
-        onDragOver={handleDragOver}
-        onDrop={(e) => handleDrop(e)}
-      ></div>
-      {images.map((image, index) => (
-        <img
-          key={index}
-          id={image.id}
-          draggable="true"
-          onDragStart={(e) => handleDragStart(e)}
-          onDragEnd={(e) => handleDragEnd(e)}
-          src={image.src}
-          className="size-6 z-30 cursor-grab "
-          style={{
-            position: "absolute",
-            left: `${image.x}px`,
-            top: `${image.y}px`,
-          }}
-          alt=""
-        />
-      ))}
-
-      <div ref={quillParentRef} className="z-10 absolute bg-white w-[800px] ">
-        <QuillEditor></QuillEditor>
+    <div>
+      <div className="flex flex-col ">
+        <div className="">
+          <input
+            type="text"
+            className="w-[800px] text-3xl outline-none  mb-2  bg-neutral-100 "
+            placeholder="タイトル"
+            onDrop={handleTitleDrop}
+          />
+        </div>
+        <div>
+          <input
+            type="text"
+            className="w-[800px] outline-none  bg-neutral-100"
+            placeholder="アーティスト"
+            onDrop={handleTitleDrop}
+          />
+        </div>
       </div>
 
-      <div
-        ref={deleteBoxRef}
-        className={`z-30 transition-all duration-300 ease-in-out border-2 border-red-600 bg-white rounded-full p-2 fixed left-1/2 ${
-          isDragging ? "top-[80px]" : "-top-[80px]" // ドラッグ中のみ表示
-        }`}
-        onDragOver={handleDragOver}
-        onDrop={(e) => handleDeleteDrop(e)}
-      >
-        <img src="http://localhost:3000/ゴミ箱-赤.png" className="size-8" alt="" />
+      <div ref={parentNodeRef} className="relative min-h-[700px] my-3 ">
+        <div
+          ref={iconsAreaRef}
+          id="iconsArea"
+          className="absolute z-0 w-[800px] min-h-[700px] overflow-hidden "
+          // contentEditable="true"
+          onDragOver={handleDragOver}
+          onDrop={(e) => handleDrop(e)}
+        ></div>
+        {images.map((image, index) => (
+          <img
+            key={index}
+            id={image.id}
+            draggable="true"
+            onDragStart={(e) => handleDragStart(e)}
+            onDragEnd={(e) => handleDragEnd(e)}
+            src={image.src}
+            style={{
+              position: "absolute",
+              left: `${image.x}px`,
+              top: `${image.y}px`,
+            }}
+            className={`z-30 ${image.className}`}
+            alt=""
+          />
+        ))}
+
+        <div ref={quillParentRef} className="z-10 absolute bg-white w-[800px] ">
+          <QuillEditor></QuillEditor>
+        </div>
+
+        <div
+          ref={deleteBoxRef}
+          className={`z-30 transition-all duration-300 ease-in-out border-2 border-red-600 bg-white rounded-full p-2 fixed left-1/2 ${
+            isDragging ? "top-[80px]" : "-top-[80px]" // ドラッグ中のみ表示
+          }`}
+          onDragOver={handleDragOver}
+          onDrop={(e) => handleDeleteDrop(e)}
+        >
+          <img src="/ゴミ箱-赤.png" className="size-8" alt="" />
+        </div>
       </div>
     </div>
   );
 };
 
 export default EditArea;
-
-const hoge = document.getElementById("756f4b76-999d-46ea-ae18-8bcd00ee0196");
-console.log(hoge?.style.left);
