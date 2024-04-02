@@ -5,13 +5,14 @@ import { v4 as uuidv4 } from "uuid";
 import dynamic from "next/dynamic";
 // import QuillEditor from "../components/QuillEditor";
 // Quillエディタをクライアントサイドでのみ読み込む
-const QuillEditor = dynamic(() => import("../components/QuillEditor"), {
+const QuillEditor = dynamic(() => import("./QuillEditor/QuillEditor"), {
   ssr: false,
 });
 
 type ImageInfo = {
   id: string;
   src: string;
+  className: string;
   x: number;
   y: number;
 };
@@ -23,6 +24,7 @@ const EditArea: React.FC = () => {
   const parentNodeRef = useRef<HTMLDivElement | null>(null);
   const deleteBoxRef = useRef<HTMLDivElement | null>(null);
   const quillParentRef = useRef<HTMLDivElement | null>(null);
+  console.log(images);
 
   //MutationObserverを使って
   //textAreaの高さを監視して、iconsAreaの高さもtextAreaに同期させる
@@ -65,6 +67,9 @@ const EditArea: React.FC = () => {
     const firstTime = e.dataTransfer.getData("firstTime");
     const imageId = e.dataTransfer.getData("imageId");
     const imageSrc = e.dataTransfer.getData("imageSrc");
+    const imageClassName = e.dataTransfer.getData("imageClassName");
+    console.log(imageClassName);
+
     const imageX = e.dataTransfer.getData("imageX");
     const imageY = e.dataTransfer.getData("imageY");
     const X = e.nativeEvent.offsetX - parseFloat(imageX);
@@ -76,6 +81,7 @@ const EditArea: React.FC = () => {
         const newImage = {
           id: uuidv4(),
           src: imageSrc,
+          className: imageClassName,
           x: X,
           y: Y,
         };
@@ -140,53 +146,76 @@ const EditArea: React.FC = () => {
     }
   };
 
-  return (
-    <div ref={parentNodeRef} className="relative min-h-[700px] my-3 ">
-      <div
-        ref={iconsAreaRef}
-        id="iconsArea"
-        className="absolute z-0 w-[800px] min-h-[700px] overflow-hidden "
-        // contentEditable="true"
-        onDragOver={handleDragOver}
-        onDrop={(e) => handleDrop(e)}
-      ></div>
-      {images.map((image, index) => (
-        <img
-          key={index}
-          id={image.id}
-          draggable="true"
-          onDragStart={(e) => handleDragStart(e)}
-          onDragEnd={(e) => handleDragEnd(e)}
-          src={image.src}
-          style={{
-            position: "absolute",
-            left: `${image.x}px`,
-            top: `${image.y}px`,
-          }}
-          className={`size-6 z-30 cursor-grab `}
-          alt=""
-        />
-      ))}
+  const handleTitleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    refChangeZindex(iconsAreaRef, 0);
+  };
 
-      <div ref={quillParentRef} className="z-10 absolute bg-white w-[800px] ">
-        <QuillEditor></QuillEditor>
+  return (
+    <div>
+      <div className="flex flex-col ">
+        <div className="">
+          <input
+            type="text"
+            className="w-[800px] text-3xl outline-none  mb-2  bg-neutral-100 "
+            placeholder="タイトル"
+            onDrop={handleTitleDrop}
+          />
+        </div>
+        <div>
+          <input
+            type="text"
+            className="w-[800px] outline-none  bg-neutral-100"
+            placeholder="アーティスト"
+            onDrop={handleTitleDrop}
+          />
+        </div>
       </div>
 
-      <div
-        ref={deleteBoxRef}
-        className={`z-30 transition-all duration-300 ease-in-out border-2 border-red-600 bg-white rounded-full p-2 fixed left-1/2 ${
-          isDragging ? "top-[80px]" : "-top-[80px]" // ドラッグ中のみ表示
-        }`}
-        onDragOver={handleDragOver}
-        onDrop={(e) => handleDeleteDrop(e)}
-      >
-        <img src="http://localhost:3000/ゴミ箱-赤.png" className="size-8" alt="" />
+      <div ref={parentNodeRef} className="relative min-h-[700px] my-3 ">
+        <div
+          ref={iconsAreaRef}
+          id="iconsArea"
+          className="absolute z-0 w-[800px] min-h-[700px] overflow-hidden "
+          // contentEditable="true"
+          onDragOver={handleDragOver}
+          onDrop={(e) => handleDrop(e)}
+        ></div>
+        {images.map((image, index) => (
+          <img
+            key={index}
+            id={image.id}
+            draggable="true"
+            onDragStart={(e) => handleDragStart(e)}
+            onDragEnd={(e) => handleDragEnd(e)}
+            src={image.src}
+            style={{
+              position: "absolute",
+              left: `${image.x}px`,
+              top: `${image.y}px`,
+            }}
+            className={`z-30 ${image.className}`}
+            alt=""
+          />
+        ))}
+
+        <div ref={quillParentRef} className="z-10 absolute bg-white w-[800px] ">
+          <QuillEditor></QuillEditor>
+        </div>
+
+        <div
+          ref={deleteBoxRef}
+          className={`z-30 transition-all duration-300 ease-in-out border-2 border-red-600 bg-white rounded-full p-2 fixed left-1/2 ${
+            isDragging ? "top-[80px]" : "-top-[80px]" // ドラッグ中のみ表示
+          }`}
+          onDragOver={handleDragOver}
+          onDrop={(e) => handleDeleteDrop(e)}
+        >
+          <img src="/ゴミ箱-赤.png" className="size-8" alt="" />
+        </div>
       </div>
     </div>
   );
 };
 
 export default EditArea;
-
-const hoge = document.getElementById("756f4b76-999d-46ea-ae18-8bcd00ee0196");
-console.log(hoge?.style.left);

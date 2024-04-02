@@ -4,9 +4,9 @@ import React, { ReactHTMLElement, useEffect, useRef, useState } from "react";
 import Quill from "quill";
 import "quill/dist/quill.snow.css"; // Quillのスタイルシート
 import "quill/dist/quill.bubble.css"; // Quillのスタイルシート
-import "../styles/quill.scss";
-import Color from "./color/Color";
-import { NotoSansJP } from "../styles/fonts";
+import "./quill.scss";
+import Color from "../ColorGuide/Color";
+import { NotoSansJP, YuGothic } from "../../styles/fonts";
 
 const toolbarOptions = [
   [
@@ -24,6 +24,8 @@ const toolbarOptions = [
 type EditorElement = HTMLDivElement & { quill?: Quill };
 
 const QuillEditor = () => {
+  const [editorContent, setEditorContent] = useState(null);
+
   const containerRef = useRef(null);
   const toolbarRef = useRef(null);
   const editorRef = useRef<EditorElement>(null);
@@ -56,12 +58,18 @@ const QuillEditor = () => {
     quill.setContents([{ insert: "\n" }]);
     editorRef.current.quill = quill;
 
+    //入力変更イベントリスナー
+    quill.on("text-change", () => {
+      console.log(quill.root.innerHTML);
+      setEditorContent(quill.root.innerHTML); // HTML内容をstateに保存
+    });
+
     const buttonContainer = document.createElement("span");
     buttonContainer.classList.add("ql-formats");
 
     Color.forEach((el) => {
       const customButton = document.createElement("button");
-      customButton.value = el.color;
+      customButton.value = el.colorCode;
       customButton.style.width = "16px";
       customButton.style.height = "16px";
       customButton.style.margin = "2px";
@@ -88,11 +96,17 @@ const QuillEditor = () => {
     toolbar.insertBefore(buttonContainer, firstChild);
   }, []);
 
+  // const handleChange = (e) => {
+  //   const target = e.target;
+  //   console.log(target);
+  //   // setTextEl()
+  // };
+
   return (
     <div id="editor-container" className="relative  " ref={containerRef}>
       <div
         ref={editorRef}
-        className={` min-h-[700px] border border-neutral-300 ${NotoSansJP.className} `}
+        className={` min-h-[700px] border border-neutral-300 ${YuGothic.className} `}
       ></div>
     </div>
   );
