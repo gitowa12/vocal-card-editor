@@ -57,9 +57,13 @@ const SideBar = () => {
   // };
 
   return (
-    <div className="mt-[84px]">
+    <div className="">
+      {/* <div className="mt-[84px]"> */}
       {/* <div id="Advertisement " className="w-[300px] h-[300px] bg-neutral-300"></div> */}
-      <div className={` w-[350px] flex flex-col gap-y-3 ${isFixed ? "fixed top-[87px] " : ""} `}>
+      <div className={` w-[350px] flex flex-col gap-y-3 `}>
+        {/* <div
+        className={` w-[350px] flex flex-col gap-y-3 ${isFixed ? "fixed top-[87px] " : ""} `}
+      > */}
         {/* <div className="bg-white border border-neutral-300 p-3">
           <p className="text-xl">テキストサイズ</p>
           <button id="16px" className="text-xl" onClick={handleClick}>
@@ -69,6 +73,7 @@ const SideBar = () => {
             a
           </button>
         </div> */}
+
         <IconList></IconList>
         <ColorGuide></ColorGuide>
       </div>

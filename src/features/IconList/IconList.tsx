@@ -81,7 +81,7 @@ const IconList = () => {
       <p className="mb-1 text-xl font-bold">テクニック</p>
       <div className=" flex flex-wrap justify-between">
         {iconList.map((icon) => (
-          <div className="flex items-center">
+          <div key={icon.name} className="flex items-center">
             <div className="w-[150px] flex items-center">
               <div className=" size-11 m-1 p-2 rounded-full bg-neutral-200 flex justify-center items-center">
                 <img

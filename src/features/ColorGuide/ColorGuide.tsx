@@ -7,7 +7,7 @@ const ColorGuide = () => {
       <p className="mb-2 text-xl font-bold">カラーガイド</p>
       <div className="flex flex-col gap-2">
         {Color.map((el) => (
-          <p style={{ backgroundColor: el.colorCode }} className="p-1 ">
+          <p key={el.colorCode} style={{ backgroundColor: el.colorCode }} className="p-1 ">
             {el.name}
           </p>
         ))}
