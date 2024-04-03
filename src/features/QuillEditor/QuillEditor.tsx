@@ -7,6 +7,8 @@ import "quill/dist/quill.bubble.css"; // Quillのスタイルシート
 import "./quill.scss";
 import Color from "../ColorGuide/Color";
 import { NotoSansJP, YuGothic } from "../../styles/fonts";
+import { supabase } from "../supabaseClient";
+import { content } from "html2canvas/dist/types/css/property-descriptors/content";
 
 const toolbarOptions = [
   [
@@ -23,14 +25,9 @@ const toolbarOptions = [
 // HTMLDivElementにquillプロパティをオプショナルで追加する型を定義
 type EditorElement = HTMLDivElement & { quill?: Quill };
 
-const QuillEditor = () => {
-  const [editorContent, setEditorContent] = useState(null);
-
+const QuillEditor = ({ handleParentSetState, quillContents }) => {
   const containerRef = useRef(null);
-  const toolbarRef = useRef(null);
   const editorRef = useRef<EditorElement>(null);
-  const [toolbarDisplay, setToolbarDisplay] = useState(false);
-  const [toolbarPosition, setToolbarPosition] = useState({ x: 0, y: 0 });
 
   useEffect(() => {
     if (!editorRef.current) return;
@@ -53,15 +50,21 @@ const QuillEditor = () => {
         // "image", // ここで`image`を削除すると画像の挿入が無効になります
       ],
     });
+    editorRef.current.quill = quill;
 
     // エディタのコンテンツをリセットする
     quill.setContents([{ insert: "\n" }]);
-    editorRef.current.quill = quill;
+    quill.setContents(quillContents.contents);
+    // const simpleDelta = {
+    //   ops: [{ insert: quillContents }],
+    // };
+    // quill.setText(quillContents.contents);
 
     //入力変更イベントリスナー
     quill.on("text-change", () => {
-      console.log(quill.root.innerHTML);
-      setEditorContent(quill.root.innerHTML); // HTML内容をstateに保存
+      // const delta = quill.getContents();
+      // console.log(delta);
+      handleParentSetState(quill.root.innerHTML); // HTML内容をstateに保存
     });
 
     const buttonContainer = document.createElement("span");
@@ -73,7 +76,7 @@ const QuillEditor = () => {
       customButton.style.width = "16px";
       customButton.style.height = "16px";
       customButton.style.margin = "2px";
-      console.log(el);
+      // console.log(el);
 
       customButton.style.backgroundColor = el.colorCode;
       customButton.onclick = (e) => {
@@ -82,7 +85,7 @@ const QuillEditor = () => {
         const color = target.value;
 
         quill.format("background", color);
-        console.log("カスタムボタンがクリックされました");
+        // console.log("カスタムボタンがクリックされました");
       };
       buttonContainer.appendChild(customButton);
     });
@@ -96,14 +99,8 @@ const QuillEditor = () => {
     toolbar.insertBefore(buttonContainer, firstChild);
   }, []);
 
-  // const handleChange = (e) => {
-  //   const target = e.target;
-  //   console.log(target);
-  //   // setTextEl()
-  // };
-
   return (
-    <div id="editor-container" className="relative  " ref={containerRef}>
+    <div id="editor-container" className="relative" ref={containerRef}>
       <div
         ref={editorRef}
         className={` min-h-[700px] border border-neutral-300 ${YuGothic.className} `}
