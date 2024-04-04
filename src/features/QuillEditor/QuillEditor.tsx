@@ -28,6 +28,7 @@ type EditorElement = HTMLDivElement & { quill?: Quill };
 const QuillEditor = ({ handleParentSetState, quillContents }) => {
   const containerRef = useRef(null);
   const editorRef = useRef<EditorElement>(null);
+  console.log(quillContents);
 
   useEffect(() => {
     if (!editorRef.current) return;
@@ -54,16 +55,18 @@ const QuillEditor = ({ handleParentSetState, quillContents }) => {
 
     // エディタのコンテンツをリセットする
     quill.setContents([{ insert: "\n" }]);
-    quill.setContents(quillContents.contents);
+    // quill.setContents(quillContents);
     // const simpleDelta = {
     //   ops: [{ insert: quillContents }],
     // };
-    // quill.setText(quillContents.contents);
+    quill.setText(quillContents);
 
     //入力変更イベントリスナー
     quill.on("text-change", () => {
       // const delta = quill.getContents();
       // console.log(delta);
+      // const contents = getSemanticHTML();
+      // handleParentSetState(contents); // HTML内容をstateに保存
       handleParentSetState(quill.root.innerHTML); // HTML内容をstateに保存
     });
 
