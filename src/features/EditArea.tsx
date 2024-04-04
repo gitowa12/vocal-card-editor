@@ -29,23 +29,28 @@ type ImageInfo = {
 //   contents: string;
 // };
 
-const EditArea: React.FC = ({ beforeData }) => {
+interface Props {
+  quillData: any;
+  id: string;
+}
+
+const EditArea: React.FC<Props> = ({ quillData, id }) => {
+  console.log("id", id);
   const [images, setImages] = useState<ImageInfo[]>([]);
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const iconsAreaRef = useRef<HTMLDivElement | null>(null);
   const parentNodeRef = useRef<HTMLDivElement | null>(null);
   const deleteBoxRef = useRef<HTMLDivElement | null>(null);
   const quillParentRef = useRef<HTMLDivElement | null>(null);
-  const [quillContents, setQuillContents] = useState<any | null>(beforeData || null);
+  const [quillContents, setQuillContents] = useState<any | null>(quillData || null);
   // console.log(images);
-  console.log(beforeData);
+  console.log(quillData);
 
   useEffect(() => {
     console.log("quillContents", quillContents);
   }, [quillContents]);
 
-  //MutationObserverを使って
-  //textAreaの高さを監視して、iconsAreaの高さもtextAreaに同期させる
+  //MutationObserverを使って textAreaの高さを監視して、iconsAreaの高さもtextAreaに同期させる
   const config = {
     childList: true, //「子ノード（テキストノードも含む）」の変化
     attributes: true, //「属性」の変化
@@ -73,8 +78,6 @@ const EditArea: React.FC = ({ beforeData }) => {
       return () => quillParentHeightObserver.disconnect();
     }
   }, []);
-
-  useEffect(() => {}, []); // 空の依存配列を追加
 
   const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
     e.preventDefault();
@@ -170,23 +173,28 @@ const EditArea: React.FC = ({ beforeData }) => {
   };
 
   const handleParentSetState = (newValue: string) => {
-    const obj = {
-      id: quillContents.id,
-      contents: newValue,
-    };
-    setQuillContents(obj);
+    setQuillContents(newValue);
     // setQuillContents(obj);
   };
 
   const handleSave = async () => {
-    try {
-      const { error } = await supabase.from("quillData").insert(quillContents);
-      if (error) throw error;
-      console.log("Save successful"); // エラーがなければ保存成功のメッセージを出力
-    } catch (error) {
-      // 実際に捕捉されたエラーオブジェクトをログに記録
-      console.error("Save failed:", error);
-    }
+    const API_URL = process.env.NEXT_PUBLIC_API_URL;
+    const res = await fetch(`${API_URL}/api/${id}/`, {
+      method: "PUT",
+      body: quillContents,
+      cache: "no-store",
+    });
+    const result = await res.json();
+    console.log(result);
+
+    // try {
+    //   const { error } = await supabase.from("quillData").insert(quillContents);
+    //   if (error) throw error;
+    //   console.log("Save successful"); // エラーがなければ保存成功のメッセージを出力
+    // } catch (error) {
+    //   // 実際に捕捉されたエラーオブジェクトをログに記録
+    //   console.error("Save failed:", error);
+    // }
   };
 
   return (

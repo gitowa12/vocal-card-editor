@@ -4,7 +4,7 @@ import React from "react";
 
 const Editor = async ({ params }: { params: { id: string } }) => {
   const API_URL = process.env.NEXT_PUBLIC_API_URL;
-  const res = await fetch(`${API_URL}/api/${params.id}`, { cache: "no-store" });
+  const res = await fetch(`${API_URL}/api/${params.id}/`, { method: "GET", cache: "no-store" });
   // console.log(res);
   const result = await res.json();
   console.log(result);
@@ -12,7 +12,7 @@ const Editor = async ({ params }: { params: { id: string } }) => {
     <div className="">
       <div className="w-[1200px]  mx-auto py-7 ">
         <div className=" min-h-screen">
-          <EditArea beforeData={result}></EditArea>
+          <EditArea quillData={result.contents} id={params.id}></EditArea>
         </div>
       </div>
       {/* <div className="w-[1200px]  mx-auto py-7 flex  justify-center ">

@@ -8,8 +8,6 @@ export default async function List() {
   const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
   const res = await fetch(`${API_URL}/api/`, { cache: "no-store" });
-
-  console.log("ああああああああああああああ");
   const result = await res.json();
   console.log(result);
   // const data = await res.json(); // JSONとしてレスポンスデータを解析
