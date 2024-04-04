@@ -35,7 +35,7 @@ interface Props {
 }
 
 const EditArea: React.FC<Props> = ({ quillData, id }) => {
-  console.log("id", id);
+  // console.log("id", id);
   const [images, setImages] = useState<ImageInfo[]>([]);
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const iconsAreaRef = useRef<HTMLDivElement | null>(null);
@@ -44,7 +44,7 @@ const EditArea: React.FC<Props> = ({ quillData, id }) => {
   const quillParentRef = useRef<HTMLDivElement | null>(null);
   const [quillContents, setQuillContents] = useState<any | null>(quillData || null);
   // console.log(images);
-  console.log(quillData);
+  // console.log(quillData);
 
   useEffect(() => {
     console.log("quillContents", quillContents);
@@ -176,7 +176,7 @@ const EditArea: React.FC<Props> = ({ quillData, id }) => {
     setQuillContents(newValue);
     // setQuillContents(obj);
   };
-
+  //保存apiを実行
   const handleSave = async () => {
     const API_URL = process.env.NEXT_PUBLIC_API_URL;
     const res = await fetch(`${API_URL}/api/${id}/`, {
@@ -186,15 +186,16 @@ const EditArea: React.FC<Props> = ({ quillData, id }) => {
     });
     const result = await res.json();
     console.log(result);
+  };
 
-    // try {
-    //   const { error } = await supabase.from("quillData").insert(quillContents);
-    //   if (error) throw error;
-    //   console.log("Save successful"); // エラーがなければ保存成功のメッセージを出力
-    // } catch (error) {
-    //   // 実際に捕捉されたエラーオブジェクトをログに記録
-    //   console.error("Save failed:", error);
-    // }
+  const handleDelete = async () => {
+    const API_URL = process.env.NEXT_PUBLIC_API_URL;
+    const res = await fetch(`${API_URL}/api/${id}/`, {
+      method: "DELETE",
+      cache: "no-store",
+    });
+    const result = await res.json();
+    console.log(result);
   };
 
   return (
@@ -264,12 +265,18 @@ const EditArea: React.FC<Props> = ({ quillData, id }) => {
           </div>
         </div>
         <div className="w-[350px]">
-          <div>
+          <div className="flex">
             <button
-              className=" px-6 py-3  bg-blue-400 rounded-lg mb-3 text-white"
+              className=" px-6 py-3  bg-blue-500 rounded-lg mb-3 text-white mr-2"
               onClick={handleSave}
             >
               保存する
+            </button>
+            <button
+              className=" px-6 py-3 bg-red-500 rounded-lg mb-3 text-white"
+              onClick={handleDelete}
+            >
+              削除
             </button>
           </div>
           <SideBar></SideBar>
