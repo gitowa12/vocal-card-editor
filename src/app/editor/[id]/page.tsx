@@ -1,13 +1,18 @@
 import EditArea from "@/features/EditArea";
 import SideBar from "@/features/SideBar";
+import { notFound } from "next/navigation";
 import React from "react";
 
 const Editor = async ({ params }: { params: { id: string } }) => {
   const API_URL = process.env.NEXT_PUBLIC_API_URL;
   const res = await fetch(`${API_URL}/api/${params.id}/`, { method: "GET", cache: "no-store" });
-  // console.log(res);
+  if (res.status !== 200) {
+    notFound();
+  }
+  console.log(res);
   const result = await res.json();
   console.log(result);
+
   return (
     <div className="">
       <div className="w-[1200px]  mx-auto py-7 ">

@@ -24,11 +24,6 @@ type ImageInfo = {
   y: number;
 };
 
-// type Contents = {
-//   id: string;
-//   contents: string;
-// };
-
 interface Props {
   quillData: any;
   id: string;
@@ -46,9 +41,9 @@ const EditArea: React.FC<Props> = ({ quillData, id }) => {
   // console.log(images);
   // console.log(quillData);
 
-  useEffect(() => {
-    console.log("quillContents", quillContents);
-  }, [quillContents]);
+  // useEffect(() => {
+  //   console.log("quillContents", quillContents);
+  // }, [quillContents]);
 
   //MutationObserverを使って textAreaの高さを監視して、iconsAreaの高さもtextAreaに同期させる
   const config = {
@@ -176,6 +171,7 @@ const EditArea: React.FC<Props> = ({ quillData, id }) => {
     setQuillContents(newValue);
     // setQuillContents(obj);
   };
+
   //保存apiを実行
   const handleSave = async () => {
     const API_URL = process.env.NEXT_PUBLIC_API_URL;

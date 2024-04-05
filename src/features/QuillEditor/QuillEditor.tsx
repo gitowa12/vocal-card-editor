@@ -29,8 +29,6 @@ const QuillEditor = ({ handleParentSetState, quillContents }) => {
   const containerRef = useRef(null);
   const editorRef = useRef<EditorElement>(null);
 
-  console.log("parse後", JSON.parse(quillContents));
-
   useEffect(() => {
     if (!editorRef.current) return;
     const quill: Quill = new Quill(editorRef.current, {
@@ -56,7 +54,7 @@ const QuillEditor = ({ handleParentSetState, quillContents }) => {
 
     // エディタのコンテンツをリセットする
     quill.setContents([{ insert: "\n" }]);
-    //前回データをセット
+    //前回データをparceしてセット
     const beforeData = JSON.parse(quillContents);
     quill.setContents(beforeData);
 
