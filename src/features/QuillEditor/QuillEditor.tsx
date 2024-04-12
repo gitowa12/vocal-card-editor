@@ -7,7 +7,7 @@ import "quill/dist/quill.bubble.css"; // Quillのスタイルシート
 import "./quill.scss";
 import Color from "../ColorGuide/Color";
 import { NotoSansJP, YuGothic } from "../../styles/fonts";
-import { supabase } from "../supabaseClient";
+import { supabase } from "../../util/supabaseClient";
 import { content } from "html2canvas/dist/types/css/property-descriptors/content";
 
 const toolbarOptions = [
@@ -55,15 +55,17 @@ const QuillEditor = ({ handleParentSetState, quillContents }) => {
     // エディタのコンテンツをリセットする
     quill.setContents([{ insert: "\n" }]);
     //前回データをparceしてセット
-    const beforeData = JSON.parse(quillContents);
-    quill.setContents(beforeData);
+    // const beforeData = JSON.parse(quillContents);
+    // quill.setContents(beforeData);
+    quill.setContents(quillContents);
 
     //入力変更イベントリスナー
     quill.on("text-change", () => {
       const contents = quill.getContents();
       // console.log(contents);
       // console.log(JSON.stringify(contents));
-      handleParentSetState(JSON.stringify(contents)); // HTML内容をstateに保存
+      handleParentSetState(contents); // HTML内容をstateに保存
+      // handleParentSetState(JSON.stringify(contents)); // HTML内容をstateに保存
     });
 
     const buttonContainer = document.createElement("span");

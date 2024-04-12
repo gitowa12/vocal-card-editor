@@ -4,10 +4,8 @@ import React, { createElement, useEffect, useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import dynamic from "next/dynamic";
 import SideBar from "./SideBar";
-import { SupabaseClient } from "@supabase/supabase-js";
-import { supabase } from "./supabaseClient";
-import { channel } from "diagnostics_channel";
-import { log } from "console";
+import { supabase } from "../util/supabaseClient";
+import { notFound, useRouter } from "next/navigation";
 
 // import QuillEditor from "../components/QuillEditor";
 
@@ -24,23 +22,33 @@ type ImageInfo = {
   y: number;
 };
 
-interface Props {
-  quillData: any;
-  id: string;
-}
-
-const EditArea: React.FC<Props> = ({ quillData, id }) => {
+const EditArea = ({ id, quillData, iconsData, titleData, artistData }) => {
   // console.log("id", id);
-  const [images, setImages] = useState<ImageInfo[]>([]);
+  console.log("id", id);
+  console.log("quillData", quillData);
+  console.log("titleData", titleData);
+  console.log("artistData", artistData);
+
   const [isDragging, setIsDragging] = useState<boolean>(false);
   const iconsAreaRef = useRef<HTMLDivElement | null>(null);
   const parentNodeRef = useRef<HTMLDivElement | null>(null);
   const deleteBoxRef = useRef<HTMLDivElement | null>(null);
   const quillParentRef = useRef<HTMLDivElement | null>(null);
   const [quillContents, setQuillContents] = useState<any | null>(quillData || null);
+  const [images, setImages] = useState<ImageInfo[]>(iconsData || []);
+  const [title, setTitle] = useState<string>(titleData);
+  const [artist, setArtist] = useState<string>(artistData);
+  const [currentUserId, setcurrentUserId] = useState("");
+  const [jwt, setJwt] = useState("");
   // console.log(images);
-  // console.log(quillData);
+  // console.log(data);
 
+  // useEffect(() => {
+
+  // }, []);
+  // useEffect(() => {
+  //   console.log("title", title);
+  // }, [title]);
   // useEffect(() => {
   //   console.log("quillContents", quillContents);
   // }, [quillContents]);
@@ -52,7 +60,29 @@ const EditArea: React.FC<Props> = ({ quillData, id }) => {
     characterData: true, //「テキストノード」の変化
     subtree: true,
   };
+
   useEffect(() => {
+    setQuillContents(quillData);
+    // 現在ログインしているユーザーを取得する処理
+    // const getCurrentUser = async () => {
+    //   // ログインのセッションを取得する処理
+    //   const { data } = await supabase.auth.getSession();
+    //   // セッションがあるときだけ現在ログインしているユーザーを取得する
+    //   if (data.session !== null) {
+    //     // supabaseに用意されている現在ログインしているユーザーを取得する関数
+    //     console.log(data.session);
+    //     setJwt(data.session);
+
+    //     const {
+    //       data: { user },
+    //     } = await supabase.auth.getUser();
+    //     // currentUserにユーザーのメールアドレスを格納
+    //     console.log("user", user);
+    //     setcurrentUserId(user.id);
+    //   }
+    // };
+    // getCurrentUser();
+
     //Quill内のテキストに合わせてページの高さを変更する処理
     // console.log(quillParentRef.current);
     if (quillParentRef.current) {
@@ -174,16 +204,30 @@ const EditArea: React.FC<Props> = ({ quillData, id }) => {
 
   //保存apiを実行
   const handleSave = async () => {
+    // const icons = JSON.stringify(images);
+    // console.log("icons", icons);
+    const data = JSON.stringify({
+      quillData: quillContents,
+      icons: images,
+      title: title,
+      artist: artist,
+    });
+    console.log("data", data);
     const API_URL = process.env.NEXT_PUBLIC_API_URL;
     const res = await fetch(`${API_URL}/api/${id}/`, {
       method: "PUT",
-      body: quillContents,
+      headers: {
+        Authorization: `Bearer ${jwt}`,
+      },
+      body: data,
       cache: "no-store",
     });
     const result = await res.json();
     console.log(result);
   };
 
+  const router = useRouter();
+  //削除apiの実行
   const handleDelete = async () => {
     const API_URL = process.env.NEXT_PUBLIC_API_URL;
     const res = await fetch(`${API_URL}/api/${id}/`, {
@@ -192,7 +236,19 @@ const EditArea: React.FC<Props> = ({ quillData, id }) => {
     });
     const result = await res.json();
     console.log(result);
+    router.push(`/list`);
   };
+
+  // //削除apiの実行
+  // const handleDelete = async () => {
+  //   const { error } = await supabase.from("editorData").delete().eq("id", id);
+
+  //   if (error) {
+  //     console.error("削除処理に失敗しました", error);
+  //   }
+  //   console.log("削除完了");
+  //   // router.push(`/list`);
+  // };
 
   return (
     <div>
@@ -200,9 +256,11 @@ const EditArea: React.FC<Props> = ({ quillData, id }) => {
         <div className="">
           <input
             type="text"
-            className="w-[800px] text-3xl outline-none  mb-2  bg-neutral-100 "
+            className="w-[800px] text-4xl outline-none  mb-2  bg-neutral-100 "
             placeholder="タイトル"
             onDrop={handleTitleDrop}
+            onChange={(e) => setTitle(e.target.value)}
+            value={title}
           />
         </div>
         <div>
@@ -211,6 +269,8 @@ const EditArea: React.FC<Props> = ({ quillData, id }) => {
             className="w-[800px] outline-none  bg-neutral-100"
             placeholder="アーティスト"
             onDrop={handleTitleDrop}
+            onChange={(e) => setArtist(e.target.value)}
+            value={artist}
           />
         </div>
       </div>
@@ -260,7 +320,7 @@ const EditArea: React.FC<Props> = ({ quillData, id }) => {
             <img src="/ゴミ箱-赤.png" className="size-8" alt="" />
           </div>
         </div>
-        <div className="w-[350px]">
+        <div className="w-[350px] sticky top-5">
           <div className="flex">
             <button
               className=" px-6 py-3  bg-blue-500 rounded-lg mb-3 text-white mr-2"

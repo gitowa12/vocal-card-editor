@@ -1,34 +1,103 @@
-import { supabase } from "@/features/supabaseClient";
-import Link from "next/link";
-import React from "react";
+// "use client";
 
-export default async function List() {
+import CreateNewButton from "@/features/CreateNewButton";
+import { supabase } from "@/util/supabaseClient";
+import { formatDate } from "@/util/formatDate";
+import Link from "next/link";
+import React, { useEffect, useState } from "react";
+import { EditorData } from "@/types";
+import { notFound } from "next/navigation";
+
+const List = async ({ params }: { params: { id: string } }) => {
   const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
-  const res = await fetch(`${API_URL}/api/`, { method: "GET", cache: "no-store" });
+  const res = await fetch(`${API_URL}/api/`, {
+    method: "GET",
+    cache: "no-store",
+  });
+  if (res.status !== 200) {
+    notFound();
+  }
+  console.log(res);
   const result = await res.json();
-  console.log(result);
-  // const data = await res.json(); // JSONとしてレスポンスデータを解析
+  console.log("result", result);
+  // const res = await fetch(`${API_URL}/api/`, {
+  //   method: "GET",
+  //   headers: {
+  //     Authorization: `Bearer ${jwt}`,
+  //   },
+  //   cache: "no-store",
+  // });
+  // if (res.status !== 200) {
+  //   notFound();
+  // }
+  // console.log(res);
+  // const result = await res.json();
+  // console.log("result", result);
 
-  const handleClick = () => {};
+  // const { data, error } = await supabase
+  //   .from("editorData")
+  //   .select("*")
+  //   .order("updated_at", { ascending: false });
+
+  // if (error) {
+  //   console.error(error);
+  //   return <div>Error loading data.</div>;
+  // }
+
+  // const result = data.map((item) => ({
+  //   ...item,
+  //   updated_at: formatDate(item.updated_at),
+  // }));
+
+  // const [result, setResult] = useState<EditorData[]>([]);
+
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const { data, error } = await supabase
+  //       .from("editorData")
+  //       .select("*")
+  //       .order("updated_at", { ascending: false });
+
+  //     if (error) {
+  //       console.error(error);
+  //     } else if (data) {
+  //       // データのフォーマットをここで行う
+  //       setResult(
+  //         data.map((item) => ({
+  //           ...item,
+  //           updated_at: formatDate(item.updated_at), // 日付のフォーマット
+  //         }))
+  //       );
+  //     }
+  //   };
+
+  //   fetchData();
+  // }, []);
 
   return (
-    <div>
+    <div className="w-[1200px]  mx-auto py-7 ">
       <div>
-        <h2>新規作成</h2>
-        <button className="py-2 px-3 bg-blue-500">新規作成</button>
+        <CreateNewButton></CreateNewButton>
       </div>
-      <div className="text-xl">一覧</div>
-      {result.map((item) => (
-        <Link key={item.id} href={`../editor/${item.id}`}>
-          <div className="m-2 p-1 border border-black inline-block transition hover:bg-white">
-            <p className=" font-bold">ID</p>
-            <p>{item.id}</p>
-            <p className=" font-bold">CONTENTS</p>
-            <p>{item.contents}</p>
-          </div>
-        </Link>
-      ))}
+
+      <div className="text-2xl">一覧</div>
+      <div className="flex flex-wrap">
+        {result.map((item) => (
+          <Link key={item.id} href={`../editor/${item.id}`} className="inline-block ">
+            <div className="flex flex-col justify-between w-[276px] h-[130px] bg-white m-3 p-4 border-2 border-neutral-400 shadow  transition hover:bg-white hover:shadow-xl">
+              <div>
+                <p className="text-3xl mb-1 font-medium">{item.title}</p>
+                <p>{item.artist}</p>
+              </div>
+
+              <p className="text-xs">{item.updated_at}</p>
+            </div>
+          </Link>
+        ))}
+      </div>
     </div>
   );
-}
+};
+
+export default List;

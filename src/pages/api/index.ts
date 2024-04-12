@@ -1,15 +1,20 @@
-import { supabase } from "@/features/supabaseClient";
+
+
+import { supabase } from "@/util/supabaseClient";
 import { NextApiRequest, NextApiResponse } from "next";
 
 export default async function handler (req :NextApiRequest, res:NextApiResponse){
+  
   const body = req.body;
+  const jwt = req.headers.authorization;
 
   switch(req.method){
 
     case "GET":
       const { data:getData, error:getError } = await supabase
-      .from('quillData')
+      .from('editorData')
       .select('*')
+      .order('updated_at', { ascending: false });
       if(getError){
         return res.status(500).json({error:getError.message});
       }
@@ -19,14 +24,16 @@ export default async function handler (req :NextApiRequest, res:NextApiResponse)
 
     case "POST":
       const { data:postData, error:postError } = await supabase
-      .from('quillData')
+      .from('editorData')
       .insert([
-        { contents:null },
+        { quillContents:null ,
+          iconsData:null
+        },
       ])
       .select()
 
       if(postError){
-        return res.status(500).json({error:getError.message});
+        return res.status(500).json({error:postError.message});
       }
 
       return res.status(201).json(postData);
