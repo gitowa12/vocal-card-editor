@@ -7,7 +7,7 @@ import "quill/dist/quill.bubble.css"; // Quillのスタイルシート
 import "./quill.scss";
 import Color from "../ColorGuide/Color";
 import { NotoSansJP, YuGothic } from "../../styles/fonts";
-import { supabase } from "../supabaseClient";
+import { supabase } from "../../utils/supabaseClient";
 import { content } from "html2canvas/dist/types/css/property-descriptors/content";
 
 const toolbarOptions = [
@@ -28,8 +28,6 @@ type EditorElement = HTMLDivElement & { quill?: Quill };
 const QuillEditor = ({ handleParentSetState, quillContents }) => {
   const containerRef = useRef(null);
   const editorRef = useRef<EditorElement>(null);
-
-  console.log("parse後", JSON.parse(quillContents));
 
   useEffect(() => {
     if (!editorRef.current) return;
@@ -54,18 +52,17 @@ const QuillEditor = ({ handleParentSetState, quillContents }) => {
     });
     editorRef.current.quill = quill;
 
-    // エディタのコンテンツをリセットする
-    quill.setContents([{ insert: "\n" }]);
-    //前回データをセット
-    const beforeData = JSON.parse(quillContents);
-    quill.setContents(beforeData);
+    quill.setContents([{ insert: "\n" }]); // エディタのコンテンツをリセットする
+
+    quill.setContents(quillContents); //前回データのセット
 
     //入力変更イベントリスナー
     quill.on("text-change", () => {
       const contents = quill.getContents();
       // console.log(contents);
       // console.log(JSON.stringify(contents));
-      handleParentSetState(JSON.stringify(contents)); // HTML内容をstateに保存
+      handleParentSetState(contents); // HTML内容をstateに保存
+      // handleParentSetState(JSON.stringify(contents)); // HTML内容をstateに保存
     });
 
     const buttonContainer = document.createElement("span");
@@ -82,8 +79,7 @@ const QuillEditor = ({ handleParentSetState, quillContents }) => {
       customButton.style.backgroundColor = el.colorCode;
       customButton.onclick = (e) => {
         const target = e.target as HTMLButtonElement;
-        // ボタンがクリックされたときの動作を定義
-        const color = target.value;
+        const color = target.value; // ボタンがクリックされたときの動作を定義
 
         quill.format("background", color);
         // console.log("カスタムボタンがクリックされました");
@@ -91,21 +87,17 @@ const QuillEditor = ({ handleParentSetState, quillContents }) => {
       buttonContainer.appendChild(customButton);
     });
 
-    // カスタムボタンをツールバーに追加
-    const toolbar = document.querySelector(".ql-toolbar");
+    const toolbar = document.querySelector(".ql-toolbar"); // カスタムボタンをツールバーに追加
     if (!toolbar) return;
+
     const firstChild = toolbar.firstChild;
 
-    // カスタムボタンをツールバーの先頭に追加
-    toolbar.insertBefore(buttonContainer, firstChild);
+    toolbar.insertBefore(buttonContainer, firstChild); // カスタムボタンをツールバーの先頭に追加
   }, []);
 
   return (
     <div id="editor-container" className="relative" ref={containerRef}>
-      <div
-        ref={editorRef}
-        className={` min-h-[700px] border border-neutral-300 ${YuGothic.className} `}
-      ></div>
+      <div ref={editorRef} className={` min-h-[700px] ${YuGothic.className} `}></div>
     </div>
   );
 };

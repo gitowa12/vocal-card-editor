@@ -1,26 +1,31 @@
-import React from "react";
+import Link from "next/link";
+import React, { useEffect, useState } from "react";
+import LoginForm from "../auth/LoginForm";
+import Image from "next/image";
 
 const Header = () => {
   return (
-    <header className="bg-neutral-500 text-white p-4">
+    <header className="bg-white  p-4 z-50 border">
       <div className="container mx-auto flex justify-between items-center">
-        <h1 className="text-xl font-semibold">サイト名</h1>
+        <h1 className="text-xl font-semibold">
+          <Link href="/" className="">
+            <img src="/Vird.svg" width="70" alt={""}></img>
+          </Link>
+        </h1>
         <nav>
-          <ul className="flex space-x-4">
+          <ul className="flex space-x-4 items-center">
             <li>
-              <a href="#home" className="hover:text-gray-300">
+              <a href="/" className="hover:text-gray-300">
                 ホーム
               </a>
             </li>
             <li>
-              <a href="#about" className="hover:text-gray-300">
-                私たちについて
-              </a>
+              <Link href="/list" className="">
+                <p>一覧</p>
+              </Link>
             </li>
             <li>
-              <a href="#contact" className="hover:text-gray-300">
-                お問い合わせ
-              </a>
+              <LoginForm></LoginForm>
             </li>
           </ul>
         </nav>

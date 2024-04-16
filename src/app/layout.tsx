@@ -17,7 +17,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja">
-      <body className={`bg-neutral-100 text-neutral-950 ${NotoSansJP.className}`}>
+      <body className={`bg-neutral-100 bg-sky-50 text-neutral-950 ${NotoSansJP.className}`}>
         <Header></Header>
         {children}
         <Footer></Footer>
