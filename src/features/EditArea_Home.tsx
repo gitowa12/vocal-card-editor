@@ -34,7 +34,7 @@ const QuillEditor = dynamic(() => import("./QuillEditor/QuillEditor"), {
 //   return res.json();
 // };
 
-const EditArea = ({ id, quillData, iconsData, titleData, artistData }) => {
+const EditArea_Home = ({ id, quillData, iconsData, titleData, artistData }) => {
   const router = useRouter();
   const params = useParams();
   const supabase = createClient();
@@ -268,25 +268,6 @@ const EditArea = ({ id, quillData, iconsData, titleData, artistData }) => {
 
   return (
     <div className="">
-      <div className="flex flex-col mb-4">
-        <input
-          type="text"
-          className="w-[800px] text-[36px] outline-none  mb-2 bg-transparent "
-          placeholder="タイトル"
-          onDrop={handleTitleDrop}
-          onChange={(e) => setTitle(e.target.value)}
-          value={title}
-        />
-        <input
-          type="text"
-          className="w-[800px] text-xl outline-none bg-transparent"
-          placeholder="アーティスト"
-          onDrop={handleTitleDrop}
-          onChange={(e) => setArtist(e.target.value)}
-          value={artist}
-        />
-      </div>
-
       <div className="w-[1200px] flex justify-between">
         <div ref={parentNodeRef} className="w-[800px]   relative min-h-[700px] mr-4">
           <div
@@ -338,17 +319,6 @@ const EditArea = ({ id, quillData, iconsData, titleData, artistData }) => {
           </div>
         </div>
         <div className="w-[350px] sticky top-5">
-          <div className="flex bg-white rounded-lg p-4 mb-3 border">
-            <button
-              className=" px-6 py-3  bg-sky-500 rounded-lg  text-white mr-2 hover:bg-sky-600"
-              onClick={handleSave}
-            >
-              保存
-            </button>
-            <button className=" px-6 py-3 bg-red-500 rounded-lg  text-white" onClick={handleDelete}>
-              削除
-            </button>
-          </div>
           <SideBar></SideBar>
         </div>
       </div>
@@ -356,4 +326,4 @@ const EditArea = ({ id, quillData, iconsData, titleData, artistData }) => {
   );
 };
 
-export default EditArea;
+export default EditArea_Home;

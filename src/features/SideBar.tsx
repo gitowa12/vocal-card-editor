@@ -2,7 +2,7 @@
 
 import React, { ReactHTMLElement, useEffect, useState } from "react";
 import Color from "./ColorGuide/Color";
-import { iconList } from "./IconList/IconsList";
+import { iconList } from "./IconList/IconList";
 import IconList from "./IconList/IconList";
 import ColorGuide from "./ColorGuide/ColorGuide";
 

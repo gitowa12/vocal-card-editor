@@ -1,46 +1,45 @@
 import EditArea from "@/features/EditArea";
 import SideBar from "@/features/SideBar";
-import { supabase } from "@/util/supabaseClient";
+import { createClient } from "@/utils/supabase/server";
+
 import Link from "next/link";
-import { notFound } from "next/navigation";
+import { notFound, useParams } from "next/navigation";
 import React from "react";
 
+// const API_URL = process.env.NEXT_PUBLIC_API_URL;
+// const getEditor = async (id: string) => {
+//   const res = await fetch(`${API_URL}/api/editor/${id}/`, {
+//     method: "GET",
+//     cache: "no-store",
+//   });
+//   return res.json();
+// };
+
 const Editor = async ({ params }: { params: { id: string } }) => {
-  // const fetchData = async () => {
-  //   const { data, error } = await supabase
-  //     .from("editorData")
-  //     .select("*")
-  //     .eq("id", params.id)
-  //     .single();
+  // const res = await getEditor(params.id);
+  const supabase = createClient();
+  const getData = async () => {
+    try {
+      const { data, error } = await supabase
+        .from("editorData")
+        .select("*")
+        .eq("id", params.id)
+        .single();
 
-  //   if (error) {
-  //     console.error(error);
-  //   }
+      console.log("Succes", data);
+      return data;
+    } catch (error) {
+      return console.log("Error", error);
+    }
+  };
+  const data = await getData();
 
-  //   if (!data) {
-  //     console.error("データが見つかりません");
-  //   }
-  //   const result = data;
-  //   return result;
-  // };
-  // const result = await fetchData();
-  // console.log("result", result);
+  const quillData = JSON.parse(data.quillContents);
+  const iconsData = JSON.parse(data.iconsData);
+  const titleData = data.title;
+  const artistData = data.artist;
 
-  const API_URL = process.env.NEXT_PUBLIC_API_URL;
-
-  const res = await fetch(`${API_URL}/api/${params.id}/`, { method: "GET", cache: "no-store" });
-  if (res.status !== 200) {
-    notFound();
-  }
-  console.log(res);
-  const result = await res.json();
-  console.log("result", result);
-  const quillData = JSON.parse(result.quillContents);
-  const iconsData = JSON.parse(result.iconsData);
-  const titleData = result.title;
-  const artistData = result.artist;
-
-  // console.log("quillData", quillData);
+  console.log("quillData", quillData);
 
   return (
     <div className="">

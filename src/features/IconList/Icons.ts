@@ -1,15 +1,13 @@
-
-
-export const iconList = [
+export const Icons = [
   {
     name: "ブレス",
     src: "/ブレス.svg",
-    className: "",
+    className: "size-4",
   },
   {
     name: "区切り",
     src: "/区切り.svg",
-    className: "",
+    className: "h-[30px]",
   },
   {
     name: "アクセント",
@@ -46,6 +44,4 @@ export const iconList = [
     src: "/ファルセット.svg",
     className: "",
   },
-
 ];
-
