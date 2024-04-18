@@ -2,7 +2,7 @@ import React from "react";
 
 const Footer = () => {
   return (
-    <footer className=" bg-white p-4 border h-[100px]">
+    <footer className="w-full h-fit py-8 bg-white p-4 border ">
       <div className="container mx-auto flex flex-wrap justify-between items-center">
         <div className="w-full md:w-auto mb-4 md:mb-0 text-center md:text-left">
           <p className="text-xl font-semibold">© 2024 サイト名. All rights reserved.</p>

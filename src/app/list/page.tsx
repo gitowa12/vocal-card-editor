@@ -46,13 +46,15 @@ const List = async ({ params }: { params: { id: string } }) => {
   const res = await getData();
 
   return (
-    <div className="w-[1200px] min-h-svh mx-auto py-7 ">
-      <CreateNewButton></CreateNewButton>
-      <div className="text-2xl">一覧</div>
+    <div className="w-[1200px] min-h-svh mx-auto py-10 ">
+      <div className="ml-4 mb-8">
+        <CreateNewButton></CreateNewButton>
+      </div>
+
       <div className="flex flex-wrap">
         {res?.map((item) => (
           <Link key={item.id} href={`../editor/${item.id}`} className="inline-block">
-            <div className="flex flex-col justify-between w-[276px] h-[130px] rounded-lg bg-white m-3 p-4 border shadow  transition hover:bg-white hover:shadow-xl">
+            <div className="flex flex-col justify-between w-[276px] h-[130px] m-3 rounded-lg bg-white  p-4 border shadow  transition hover:bg-white hover:shadow-xl">
               <div>
                 <p className="text-3xl mb-1 font-medium">{item.title}</p>
                 <p>{item.artist}</p>

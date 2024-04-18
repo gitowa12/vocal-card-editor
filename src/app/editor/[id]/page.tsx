@@ -15,6 +15,8 @@ import React from "react";
 //   return res.json();
 // };
 
+setTimeout(() => {}, 3000);
+
 const Editor = async ({ params }: { params: { id: string } }) => {
   // const res = await getEditor(params.id);
   const supabase = createClient();
@@ -26,10 +28,14 @@ const Editor = async ({ params }: { params: { id: string } }) => {
         .eq("id", params.id)
         .single();
 
-      console.log("Succes", data);
+      if (!data) {
+        notFound();
+        // throw new Error("エラーが発生しました。");
+      }
+      console.log("Success", data);
       return data;
     } catch (error) {
-      return console.log("Error", error);
+      return console.error("Error", error);
     }
   };
   const data = await getData();

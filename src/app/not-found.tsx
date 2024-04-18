@@ -4,7 +4,7 @@ import React from "react";
 const NotFound = () => {
   return (
     <div>
-      <h2>Not Found</h2>
+      <h1>404 Not Found</h1>
 
       <p>Could not find requested resource</p>
 
