@@ -1,33 +1,86 @@
 import Link from "next/link";
-import React, { useEffect, useState } from "react";
-import LoginForm from "../auth/LoginForm";
+import React, { Suspense, useEffect, useState } from "react";
+import LoginForm from "../auth/UserIcon";
 import Image from "next/image";
+import Loading from "@/app/loading";
+import LoginButton from "../auth/LoginButton";
+import UserIcon from "../auth/UserIcon";
+import { createClient } from "@/utils/supabase/server";
 
-const Header = () => {
+const Header = async () => {
+  const supabase = createClient();
+  let userData = null;
+
+  const getSession = async () => {
+    const { data, error } = await supabase.auth.getSession(); // ログインのセッションを取得する処理
+    if (error) {
+      console.error("Errorだよ", error);
+      return;
+    }
+    if (!data.session) {
+      return false;
+    }
+    console.log(data);
+    return true;
+  };
+
+  const getUser = async () => {
+    const {
+      data: { user },
+      error,
+    } = await supabase.auth.getUser(); // ログインのセッションを取得する処理
+    if (error) {
+      console.error("Errorだよ", error);
+      return;
+    }
+    console.log(user);
+    return user;
+  };
+
+  const isSession = await getSession();
+
+  if (isSession) {
+    userData = await getUser();
+    console.log(userData);
+  }
+
   return (
-    <header className="bg-white  p-4 z-50 border">
+    <header className="h-[64px] bg-white  px-6 z-50 border flex items-center">
       <div className="container mx-auto flex justify-between items-center">
         <h1 className="text-xl font-semibold">
-          <Link href="/" className="">
+          <Link href="/" className="flex items-center">
             <img src="/Vird.svg" width="70" alt={""}></img>
           </Link>
         </h1>
-        <nav>
-          <ul className="flex space-x-4 items-center">
-            <li>
-              <a href="/" className="hover:text-gray-300">
-                ホーム
-              </a>
-            </li>
-            <li>
-              <Link href="/list" className="">
-                <p>一覧</p>
-              </Link>
-            </li>
-            <li>
-              <LoginForm></LoginForm>
-            </li>
-          </ul>
+        <nav className="animate-fadein">
+          {isSession === false ? (
+            <ul className="flex space-x-4 items-center">
+              <li>
+                <Link href="/" className="hover:text-gray-300">
+                  ホーム
+                </Link>
+              </li>
+              <li>
+                <LoginButton></LoginButton>
+              </li>
+            </ul>
+          ) : (
+            <ul className="flex space-x-4 items-center">
+              <li>
+                <Link href="/" className="hover:text-gray-300">
+                  ホーム
+                </Link>
+              </li>
+              <li>
+                <Link href="/list" className="hover:text-gray-300">
+                  <p>一覧</p>
+                </Link>
+              </li>
+              <li>
+                <UserIcon userData={userData}></UserIcon>
+              </li>
+            </ul>
+          )}
         </nav>
       </div>
     </header>

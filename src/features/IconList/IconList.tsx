@@ -40,7 +40,9 @@ const IconList = () => {
               <div className="size-10 m-1  rounded-full  border bg-neutral-100  flex justify-center items-center">
                 <img
                   id={icon.name}
-                  className={`${icon.className !== "" ? `${icon.className}` : "size-6"}`}
+                  className={`cursor-pointer ${
+                    icon.className !== "" ? `${icon.className}` : "size-6"
+                  }`}
                   src={icon.src}
                   draggable="true"
                   alt={icon.name}

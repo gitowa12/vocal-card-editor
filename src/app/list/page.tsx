@@ -48,7 +48,7 @@ const List = async ({ params }: { params: { id: string } }) => {
   return (
     <div className="w-[1200px] min-h-svh mx-auto py-7 ">
       <CreateNewButton></CreateNewButton>
-      <div className="text-2xl">一覧</div>
+
       <div className="flex flex-wrap">
         {res?.map((item) => (
           <Link key={item.id} href={`../editor/${item.id}`} className="inline-block">

@@ -44,6 +44,7 @@ const EditArea_Home = ({ id, quillData, iconsData, titleData, artistData }) => {
   const parentNodeRef = useRef<HTMLDivElement | null>(null);
   const deleteBoxRef = useRef<HTMLDivElement | null>(null);
   const quillParentRef = useRef<HTMLDivElement | null>(null);
+  const iconRef = useRef<HTMLDivElement | null>(null);
   const [quillContents, setQuillContents] = useState<any | null>(quillData || null);
   const [images, setImages] = useState<ImageInfo[]>(iconsData || []);
   const [title, setTitle] = useState<string>(titleData);
@@ -292,7 +293,7 @@ const EditArea_Home = ({ id, quillData, iconsData, titleData, artistData }) => {
                 left: `${image.x}px`,
                 top: `${image.y}px`,
               }}
-              className={`z-30 ${image.className}`}
+              className={`z-30 cursor-pointer ${image.className}`}
               alt=""
             />
           ))}
@@ -305,17 +306,6 @@ const EditArea_Home = ({ id, quillData, iconsData, titleData, artistData }) => {
               handleParentSetState={handleParentSetState}
               quillContents={quillContents}
             ></QuillEditor>
-          </div>
-
-          <div
-            ref={deleteBoxRef}
-            className={`z-30 transition-all duration-300 ease-in-out border-2 border-red-600 bg-white rounded-full p-2 fixed left-1/2 ${
-              isDragging ? "top-[80px]" : "-top-[80px]" // ドラッグ中のみ表示
-            }`}
-            onDragOver={handleDragOver}
-            onDrop={(e) => handleDeleteDrop(e)}
-          >
-            <img src="/ゴミ箱-赤.png" className="size-8" alt="" />
           </div>
         </div>
         <div className="w-[350px] sticky top-5">

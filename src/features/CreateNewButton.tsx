@@ -61,23 +61,24 @@ const CreateNewButton = () => {
   // };
 
   return (
-    <button
-      className=" w-[276px] h-[130px] rounded-lg bg-white m-3 p-4 border shadow  transition hover:bg-white hover:shadow-xl inline-block"
-      onClick={handleClick}
-    >
-      <div className="flex justify-center items-center ">
-        <img className="size-12 " src="/plus-circle.svg" alt="" />
-      </div>
-    </button>
+    // <button
+    //   className=" w-[276px] h-[130px] rounded-lg bg-white m-3 p-4 border shadow  transition hover:bg-white hover:shadow-xl inline-block"
+    //   onClick={handleClick}
+    // >
+    //   <div className="flex justify-center items-center ">
+    //     <img className="size-12 " src="/plus-circle.svg" alt="" />
+    //   </div>
+    // </button>
+    <div>
+      <button
+        className=" font-semibold h-[36px] px-4 rounded-full  bg-sky-500 text-white  pb-[2px]"
+        onClick={handleClick}
+      >
+        新規作成
+      </button>
+    </div>
   );
-  //   <div>
-  //     <button
-  //       className="py-2 px-3 bg-white rounded-lg border-2 border-neutral-400"
-  //       onClick={handleClick}
-  //     >
-  //       新規作成
-  //     </button>
-  //   </div>
+
   // );
 };
 

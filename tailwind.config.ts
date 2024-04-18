@@ -15,6 +15,21 @@ const config: Config = {
       colors: {
         "333333": "#333333",
       },
+      selectors: {
+        selection: {
+          backgroundColor: "#fff",
+          color: "white",
+        },
+      },
+      keyframes: {
+        fadein: {
+          "0%": { opacity: "0" },
+          "100%": { opacity: "1" },
+        },
+      },
+      animation: {
+        fadein: "fadein 700ms ease-out",
+      },
     },
   },
   plugins: [],

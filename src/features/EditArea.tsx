@@ -46,8 +46,8 @@ const EditArea = ({ id, quillData, iconsData, titleData, artistData }) => {
   const quillParentRef = useRef<HTMLDivElement | null>(null);
   const [quillContents, setQuillContents] = useState<any | null>(quillData || null);
   const [images, setImages] = useState<ImageInfo[]>(iconsData || []);
-  const [title, setTitle] = useState<string>(titleData);
-  const [artist, setArtist] = useState<string>(artistData);
+  const [title, setTitle] = useState<String>(titleData);
+  const [artist, setArtist] = useState<String>(artistData);
   const [currentUserId, setcurrentUserId] = useState("");
   const [jwt, setJwt] = useState("");
 

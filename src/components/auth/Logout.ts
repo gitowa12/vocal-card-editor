@@ -11,4 +11,5 @@ export const Logout = async () => {
     throw new Error(error.message);
   }
   // ログアウトを反映させるためにリロードさせる
+  // location.reload();
 };
