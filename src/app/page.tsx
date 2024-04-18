@@ -4,7 +4,7 @@ import EditArea_Home from "@/features/EditArea_Home";
 
 export default function Home() {
   return (
-    <main className="flex min-h-svh flex-col items-center justify-between">
+    <main className="flex h-full flex-col items-center justify-between">
       <section className="mt-[120px] mb-[64px]">
         <div className=" flex flex-col justify-center items-center">
           <div className="w-[700px] mb-8 flex flex-col  justify-center items-center ">

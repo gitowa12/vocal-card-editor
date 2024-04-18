@@ -6,6 +6,7 @@ import Loading from "@/app/loading";
 import LoginButton from "../auth/LoginButton";
 import UserIcon from "../auth/UserIcon";
 import { createClient } from "@/utils/supabase/server";
+import CreateNewButton from "@/features/CreateNewButton";
 
 const Header = async () => {
   const supabase = createClient();
@@ -45,8 +46,8 @@ const Header = async () => {
   }
 
   return (
-    <header className="h-[64px] bg-white  px-6 z-50 border flex items-center">
-      <div className="container mx-auto flex justify-between items-center">
+    <header className="w-full p-4 bg-white border ">
+      <div className="max-w-[1280px] mx-auto flex justify-between items-center">
         <h1 className="text-xl font-semibold">
           <Link href="/" className="flex items-center">
             <img src="/Vird.svg" width="70" alt={""}></img>
@@ -75,6 +76,9 @@ const Header = async () => {
                 <Link href="/list" className="hover:text-gray-300">
                   <p>一覧</p>
                 </Link>
+              </li>
+              <li>
+                <CreateNewButton></CreateNewButton>
               </li>
               <li>
                 <UserIcon userData={userData}></UserIcon>

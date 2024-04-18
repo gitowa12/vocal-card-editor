@@ -57,25 +57,26 @@ const UserIcon = ({ userData }) => {
             suppressHydrationWarning={true}
           >
             <div className="dropdown-menu divide-y border rounded-lg">
-              <div className="h-[48px] px-4 flex items-center">
+              <div className="py-3 px-4 flex items-center">
                 <p className="pb-[2px]">{currentUserName} でログイン中</p>
               </div>
-              <div className="h-[48px] px-4 flex items-center hover:bg-neutral-300">
-                <Link href="/list" className="">
-                  <div className=" flex items-center">
-                    <img src="/cards-line.svg" alt="" className="w-6 mr-2 " />
-                    <p className="pb-[2px]">カード一覧</p>
-                  </div>
-                </Link>
-              </div>
-              <div className="h-[48px] px-4 flex items-center hover:bg-neutral-300">
-                <button className="" onClick={handleLogout}>
-                  <div className=" flex items-center">
-                    <img src="/logout-line.svg" alt="" className="w-6 mr-2" />
-                    <p className="pb-[2px]"> ログアウト</p>
-                  </div>
-                </button>
-              </div>
+
+              <Link href="/list" className="w-full py-3 p-4 flex items-center hover:bg-neutral-300">
+                <div className=" flex items-center">
+                  <img src="/cards-line.svg" alt="" className="w-6 mr-2 " />
+                  <p className="pb-[2px]">カード一覧</p>
+                </div>
+              </Link>
+
+              <button
+                className="w-full py-3 p-4 flex items-center hover:bg-neutral-300"
+                onClick={handleLogout}
+              >
+                <div className="flex items-center">
+                  <img src="/logout-line.svg" alt="" className="w-6 mr-2" />
+                  <p className="pb-[2px]"> ログアウト</p>
+                </div>
+              </button>
             </div>
           </div>
         )}

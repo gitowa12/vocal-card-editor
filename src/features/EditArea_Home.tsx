@@ -268,49 +268,44 @@ const EditArea_Home = ({ id, quillData, iconsData, titleData, artistData }) => {
   // };
 
   return (
-    <div className="">
-      <div className="w-[1200px] flex justify-between">
-        <div ref={parentNodeRef} className="w-[800px]   relative min-h-[700px] mr-4">
-          <div
-            ref={iconsAreaRef}
-            id="iconsArea"
-            className="absolute z-0 w-[800px] min-h-[700px] overflow-hidden "
-            // contentEditable="true"
-            onDragOver={handleDragOver}
-            onDrop={(e) => handleDrop(e)}
-          ></div>
+    <div className="w-[1200px] flex justify-between">
+      <div ref={parentNodeRef} className="w-[800px] relative min-h-[700px]">
+        <div
+          ref={iconsAreaRef}
+          id="iconsArea"
+          className="absolute z-0 w-[800px] min-h-[700px] overflow-hidden "
+          // contentEditable="true"
+          onDragOver={handleDragOver}
+          onDrop={(e) => handleDrop(e)}
+        ></div>
 
-          {images.map((image, index) => (
-            <img
-              key={index}
-              id={image.id}
-              draggable="true"
-              onDragStart={(e) => handleDragStart(e)}
-              onDragEnd={(e) => handleDragEnd(e)}
-              src={image.src}
-              style={{
-                position: "absolute",
-                left: `${image.x}px`,
-                top: `${image.y}px`,
-              }}
-              className={`z-30 cursor-pointer ${image.className}`}
-              alt=""
-            />
-          ))}
+        {images.map((image, index) => (
+          <img
+            key={index}
+            id={image.id}
+            draggable="true"
+            onDragStart={(e) => handleDragStart(e)}
+            onDragEnd={(e) => handleDragEnd(e)}
+            src={image.src}
+            style={{
+              position: "absolute",
+              left: `${image.x}px`,
+              top: `${image.y}px`,
+            }}
+            className={`z-30 cursor-pointer ${image.className}`}
+            alt=""
+          />
+        ))}
 
-          <div
-            ref={quillParentRef}
-            className=" rounded-lg border z-10 absolute bg-white w-[800px] "
-          >
-            <QuillEditor
-              handleParentSetState={handleParentSetState}
-              quillContents={quillContents}
-            ></QuillEditor>
-          </div>
+        <div ref={quillParentRef} className=" rounded-lg border z-10 absolute bg-white w-[800px] ">
+          <QuillEditor
+            handleParentSetState={handleParentSetState}
+            quillContents={quillContents}
+          ></QuillEditor>
         </div>
-        <div className="w-[350px] sticky top-5">
-          <SideBar></SideBar>
-        </div>
+      </div>
+      <div className="w-[350px] sticky top-5">
+        <SideBar></SideBar>
       </div>
     </div>
   );

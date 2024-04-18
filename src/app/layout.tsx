@@ -17,10 +17,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ja" className="">
-      <body className={` bg-sky-50 text-neutral-950 ${NotoSansJP.className}`}>
+      <body className={`bg-sky-50 text-neutral-950 ${NotoSansJP.className}`}>
         <Header></Header>
-        <div className="min-h-svh">{children}</div>
-
+        {children}
         <Footer></Footer>
       </body>
     </html>
