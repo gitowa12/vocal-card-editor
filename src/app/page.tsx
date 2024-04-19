@@ -5,16 +5,16 @@ import EditArea_Home from "@/features/EditArea_Home";
 export default function Home() {
   return (
     <main className="flex h-full flex-col items-center justify-between">
-      <section className="mt-[120px] mb-[64px]">
+      <section className="mt-[90px] mb-[64px]">
         <div className=" flex flex-col justify-center items-center">
-          <div className="w-[700px] mb-8 flex flex-col  justify-center items-center ">
+          <div className="w-[700px] mb-10 flex flex-col  justify-center items-center ">
             <img src="/Vird.svg" alt="" width="130" className="mb-6" />{" "}
             <p className="text-xl">Virdは、歌詞カード作成に特化したテキストエディタです。</p>
             <p className="text-xl">誰でも簡単に歌詞カードを作成できます。</p>
             <p className="text-xl">カラフルなアイコンやハイライトを使って</p>
             <p className="text-xl">あなただけのオリジナル歌詞カードを作りましょう。</p>
           </div>
-          <div className=" w-[800px] ">
+          <div className=" w-[720px] ">
             <img src="/エディタ画面.png" alt="" className="border rounded-xl shadow-md" />
           </div>
         </div>

@@ -46,7 +46,7 @@ const Header = async () => {
   }
 
   return (
-    <header className="w-full p-4 bg-white border ">
+    <header className="w-full  p-4 bg-white border ">
       <div className="max-w-[1280px] mx-auto flex justify-between items-center">
         <h1 className="text-xl font-semibold">
           <Link href="/" className="flex items-center">

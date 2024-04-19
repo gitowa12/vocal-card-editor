@@ -46,17 +46,15 @@ const Editor = async ({ params }: { params: { id: string } }) => {
   console.log("quillData", quillData);
 
   return (
-    <div className="">
-      <div className="w-[1200px]  mx-auto py-7 ">
-        <div className=" min-h-screen">
-          <EditArea
-            quillData={quillData}
-            iconsData={iconsData}
-            titleData={titleData}
-            artistData={artistData}
-            id={params.id}
-          ></EditArea>
-        </div>
+    <div className="max-w-[1280px] min-h-svh mx-auto lg:px-4 ">
+      <div className="flex justify-center mt-[24px] mb-[60px]">
+        <EditArea
+          quillData={quillData}
+          iconsData={iconsData}
+          titleData={titleData}
+          artistData={artistData}
+          id={params.id}
+        ></EditArea>
       </div>
     </div>
   );

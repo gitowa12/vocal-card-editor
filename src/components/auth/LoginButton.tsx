@@ -22,7 +22,7 @@ const LoginButton = () => {
   return (
     <div>
       <button
-        className="h-[36px]  px-5 text-md font-bold text-white bg-sky-500 border-neutral-500 rounded-full hover:bg-sky-600"
+        className="h-[36px] px-5 text-md font-bold text-white bg-sky-500 border-neutral-500 rounded-full hover:bg-sky-600"
         onClick={openModal}
       >
         Log in
