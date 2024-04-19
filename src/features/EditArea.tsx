@@ -288,7 +288,7 @@ const EditArea = ({ id, quillData, iconsData, titleData, artistData }) => {
       </div>
 
       <div className="w-[1200px] flex justify-between">
-        <div ref={parentNodeRef} className="w-[800px] relative min-h-[700px] mr-4">
+        <div ref={parentNodeRef} className="w-[800px] relative min-h-[700px] ">
           <div
             ref={iconsAreaRef}
             id="iconsArea"

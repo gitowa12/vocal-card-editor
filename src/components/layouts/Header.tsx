@@ -57,7 +57,7 @@ const Header = async () => {
           {isSession === false ? (
             <ul className="flex space-x-4 items-center">
               <li>
-                <Link href="/" className="hover:text-gray-300">
+                <Link href="/" className="p-1 hover:text-neutral-400 font-semibold">
                   ホーム
                 </Link>
               </li>
@@ -68,13 +68,13 @@ const Header = async () => {
           ) : (
             <ul className="flex space-x-4 items-center">
               <li>
-                <Link href="/" className="hover:text-gray-300">
+                <Link href="/" className="p-1  hover:text-neutral-400  font-semibold">
                   ホーム
                 </Link>
               </li>
               <li>
-                <Link href="/list" className="hover:text-gray-300">
-                  <p>一覧</p>
+                <Link href="/list" className="p-1 hover:text-neutral-400  font-semibold">
+                  一覧
                 </Link>
               </li>
               <li>
