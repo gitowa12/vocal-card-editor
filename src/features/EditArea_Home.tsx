@@ -271,24 +271,6 @@ const EditArea_Home = ({ id, quillData, iconsData, titleData, artistData }) => {
 
   return (
     <div className="mb-8">
-      <div className="flex flex-col mb-4">
-        <input
-          type="text"
-          className="text-[36px] outline-none  mb-2 bg-transparent "
-          placeholder="タイトル"
-          onDrop={handleTitleDrop}
-          onChange={(e) => setTitle(e.target.value)}
-          value={title}
-        />
-        <input
-          type="text"
-          className=" text-xl outline-none bg-transparent"
-          placeholder="アーティスト"
-          onDrop={handleTitleDrop}
-          onChange={(e) => setArtist(e.target.value)}
-          value={artist}
-        />
-      </div>
       <div className="flex">
         <div ref={parentNodeRef} className="w-[700px] relative min-h-[700px] mr-1 lg:mr-3">
           <div className="">
@@ -342,7 +324,7 @@ const EditArea_Home = ({ id, quillData, iconsData, titleData, artistData }) => {
           <img src="/ゴミ箱-赤.png" className="size-8" alt="" />
         </div>
         <div className="relative">
-          <div className="flex flex-col gap-3 w-[50px] lg:w-[160px] xl:w-[340px] sticky top-5">
+          <div className="flex flex-col gap-3 w-[50px] lg:w-[160px] xl:w-[340px] ">
             {/* <div className="flex flex-col lg:flex-row">
               <button
                 className="h-[36px] font-bold mb-1 text-sm lg:mr-2  lg:px-5 lg:text-base  text-white bg-sky-500 border-neutral-500 rounded-full hover:bg-sky-600"
