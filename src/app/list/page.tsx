@@ -46,12 +46,28 @@ const List = async ({ params }: { params: { id: string } }) => {
   const res = await getData();
 
   return (
-    <div className="w-[1200px] min-h-svh mx-auto py-10 ">
-      <div className="ml-4 mb-8">
+    <div className="max-w-[1280px] min-h-svh mx-auto flex flex-col items-center py-10 px-4">
+      <h1 className="font-bold text-2xl mb-8 border-[#333]">カード一覧</h1>
+      {/* <div className="mb-8">
         <CreateNewButton></CreateNewButton>
-      </div>
+      </div> */}
+      <div className="flex justify-center">
+        <div className="grid gap-4 grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+          {res?.map((item) => (
+            <Link key={item.id} href={`../editor/${item.id}`} className="inline-block">
+              <div className="flex flex-col justify-between w-[240px] h-[130px]  rounded-lg bg-white  p-4 border shadow  transition hover:bg-white hover:shadow-xl">
+                <div>
+                  <p className="text-3xl mb-1 font-medium">{item.title}</p>
+                  <p>{item.artist}</p>
+                </div>
 
-      <div className="flex flex-wrap">
+                <p className="text-xs">{item.updated_at ? item.updated_at : item.created_at}</p>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </div>
+      {/* <div className="flex flex-wrap xl:w-[1260px]">
         {res?.map((item) => (
           <Link key={item.id} href={`../editor/${item.id}`} className="inline-block">
             <div className="flex flex-col justify-between w-[276px] h-[130px] m-3 rounded-lg bg-white  p-4 border shadow  transition hover:bg-white hover:shadow-xl">
@@ -64,7 +80,7 @@ const List = async ({ params }: { params: { id: string } }) => {
             </div>
           </Link>
         ))}
-      </div>
+      </div> */}
     </div>
   );
 };

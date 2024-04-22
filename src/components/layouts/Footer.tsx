@@ -1,36 +1,86 @@
+import Link from "next/link";
 import React from "react";
 
 const Footer = () => {
   return (
-    <footer className="w-full h-fit py-8 bg-white p-4 border ">
-      <div className="container mx-auto flex flex-wrap justify-between items-center">
-        <div className="w-full md:w-auto mb-4 md:mb-0 text-center md:text-left">
-          <p className="text-xl font-semibold">© 2024 サイト名. All rights reserved.</p>
+    <footer className="bg-white dark:bg-gray-900">
+      <div className="mx-auto w-full max-w-screen-xl p-4 py-6 lg:py-8">
+        <div className="md:flex md:justify-between">
+          <div className="mb-6 md:mb-0">
+            <a href="https://flowbite.com/" className="flex items-center">
+              <img src="/Vird.svg" className="h-8 me-3" alt="FlowBite Logo" />
+            </a>
+          </div>
+          <div className="grid grid-cols-2 gap-8 sm:gap-6 sm:grid-cols-3">
+            <div>
+              <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">
+                About
+              </h2>
+              <ul className="text-gray-500 dark:text-gray-400 font-medium">
+                <li className="mb-4">
+                  <Link href="/coming-soon" className="hover:underline">
+                    このサイトについて
+                  </Link>
+                </li>
+                <li className="mb-4">
+                  <Link href="/coming-soon" className="hover:underline">
+                    お知らせ
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/coming-soon" className="hover:underline">
+                    リリースノート
+                  </Link>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">
+                Guide
+              </h2>
+              <ul className="text-gray-500 dark:text-gray-400 font-medium">
+                <li className="mb-4">
+                  <Link href="/coming-soon" className="hover:underline ">
+                    使い方
+                  </Link>
+                </li>
+                <li>
+                  <Link href="/coming-soon" className="hover:underline">
+                    よくある質問
+                  </Link>
+                </li>
+              </ul>
+            </div>
+            <div>
+              <h2 className="mb-6 text-sm font-semibold text-gray-900 uppercase dark:text-white">
+                Legal
+              </h2>
+              <ul className="text-gray-500 dark:text-gray-400 font-medium">
+                <li className="mb-4">
+                  <Link href="/terms" className="hover:underline">
+                    利用規約
+                  </Link>
+                </li>
+                <li className="mb-4">
+                  <Link href="/coming-soon" className="hover:underline">
+                    プライバシーポリシー
+                  </Link>
+                </li>
+                <li>
+                  <Link href="https://twitter.com/towa97674795586" className="hover:underline">
+                    お問い合わせ
+                  </Link>
+                </li>
+              </ul>
+            </div>
+          </div>
         </div>
-        <nav className="w-full md:w-auto">
-          <ul className="flex flex-wrap justify-center md:justify-start space-x-0 md:space-x-4">
-            <li>
-              <a href="#home" className="hover:text-gray-300">
-                ホーム
-              </a>
-            </li>
-            <li>
-              <a href="#about" className="hover:text-gray-300">
-                私たちについて
-              </a>
-            </li>
-            <li>
-              <a href="#services" className="hover:text-gray-300">
-                サービス
-              </a>
-            </li>
-            <li>
-              <a href="#contact" className="hover:text-gray-300">
-                お問い合わせ
-              </a>
-            </li>
-          </ul>
-        </nav>
+        <hr className="my-6 border-gray-200 sm:mx-auto dark:border-gray-700 lg:my-8" />
+        <div className="sm:flex sm:items-center sm:justify-between">
+          <span className="text-sm text-gray-500 sm:text-center dark:text-gray-400">
+            © 2024 Vird
+          </span>
+        </div>
       </div>
     </footer>
   );

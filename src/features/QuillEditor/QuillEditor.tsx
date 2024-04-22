@@ -97,7 +97,7 @@ const QuillEditor = ({ handleParentSetState, quillContents }) => {
 
   return (
     <div id="editor-container" className="relative" ref={containerRef}>
-      <div ref={editorRef} className={` min-h-[700px] ${YuGothic.className} `}></div>
+      <div ref={editorRef} className={`min-h-[700px] ${YuGothic.className} `}></div>
     </div>
   );
 };

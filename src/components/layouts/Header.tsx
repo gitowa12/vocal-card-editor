@@ -46,7 +46,7 @@ const Header = async () => {
   }
 
   return (
-    <header className="w-full p-4 bg-white border ">
+    <header className="w-full  p-4 bg-white border ">
       <div className="max-w-[1280px] mx-auto flex justify-between items-center">
         <h1 className="text-xl font-semibold">
           <Link href="/" className="flex items-center">
@@ -57,7 +57,7 @@ const Header = async () => {
           {isSession === false ? (
             <ul className="flex space-x-4 items-center">
               <li>
-                <Link href="/" className="hover:text-gray-300">
+                <Link href="/" className="p-1 hover:text-neutral-400 font-semibold">
                   ホーム
                 </Link>
               </li>
@@ -68,13 +68,13 @@ const Header = async () => {
           ) : (
             <ul className="flex space-x-4 items-center">
               <li>
-                <Link href="/" className="hover:text-gray-300">
+                <Link href="/" className="p-1  hover:text-neutral-400  font-semibold">
                   ホーム
                 </Link>
               </li>
               <li>
-                <Link href="/list" className="hover:text-gray-300">
-                  <p>一覧</p>
+                <Link href="/list" className="p-1 hover:text-neutral-400  font-semibold">
+                  一覧
                 </Link>
               </li>
               <li>

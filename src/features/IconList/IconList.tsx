@@ -28,16 +28,16 @@ const IconList = () => {
   return (
     <div
       id="icons"
-      className={`bg-white rounded-lg border p-4`}
+      className={`bg-white rounded-lg border lg:p-3 xl:p-4`}
       onDragStart={(e) => handleDragStart(e)}
       // onDragEnd={handleDragEnd}
     >
-      <p className="mb-1 text-xl font-bold">テクニック</p>
-      <div className=" flex flex-wrap justify-between">
+      <p className="mb-1 hidden lg:inline xl:text-xl font-bold">テクニック</p>
+      <div className=" flex justify-center flex-wrap lg:justify-between ">
         {Icons.map((icon) => (
           <div key={icon.name} className="flex items-center">
-            <div className="w-[150px] flex items-center">
-              <div className="size-10 m-1  rounded-full  border bg-neutral-100  flex justify-center items-center">
+            <div className=" lg:w-[150px] flex items-center">
+              <div className="size-9 xl:size-10 my-1 lg:m-1 rounded-full border bg-neutral-100 flex justify-center items-center">
                 <img
                   id={icon.name}
                   className={`cursor-pointer ${
@@ -48,7 +48,9 @@ const IconList = () => {
                   alt={icon.name}
                 ></img>
               </div>
-              <p className="">{icon.name}</p>
+              <p className=" hidden  lg:inline lg:text-sm lg:font-semibold xl:text-base">
+                {icon.name}
+              </p>
             </div>
           </div>
         ))}

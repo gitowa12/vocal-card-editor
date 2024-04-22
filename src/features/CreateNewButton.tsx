@@ -71,7 +71,7 @@ const CreateNewButton = () => {
     // </button>
     <div>
       <button
-        className=" font-semibold h-[36px] px-4 rounded-full  bg-sky-500 text-white  pb-[2px]"
+        className=" font-semibold h-[36px] px-4 rounded-full  bg-sky-500 text-white  pb-[2px]  hover:bg-sky-600"
         onClick={handleClick}
       >
         新規作成

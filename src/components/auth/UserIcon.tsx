@@ -39,9 +39,9 @@ const UserIcon = ({ userData }) => {
   Modal.setAppElement("body");
 
   const handleLogout = async () => {
+    router.push(`/`);
     await Logout();
     location.reload();
-    router.push(`/`);
     // router.refresh();
   };
 

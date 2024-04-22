@@ -3,12 +3,11 @@ import React from "react";
 
 const NotFound = () => {
   return (
-    <div>
-      <h1>404 Not Found</h1>
-
-      <p>Could not find requested resource</p>
-
-      <Link href="/">Return Home</Link>
+    <div className="w-full h-svh flex justify-center py-[350px]">
+      <div className="">
+        <h1>404 Not Found</h1>
+        <Link href="/">Return Home</Link>
+      </div>
     </div>
   );
 };

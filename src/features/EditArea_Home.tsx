@@ -8,6 +8,8 @@ import { useParams, useRouter } from "next/navigation";
 import { ImageInfo } from "@/types";
 import { createClient } from "@/utils/supabase/client";
 import { Icons } from "./IconList/Icons";
+import IconList from "./IconList/IconList";
+import ColorGuide from "./ColorGuide/ColorGuide";
 
 // Quillエディタをクライアントサイドでのみ読み込む
 const QuillEditor = dynamic(() => import("./QuillEditor/QuillEditor"), {
@@ -268,44 +270,80 @@ const EditArea_Home = ({ id, quillData, iconsData, titleData, artistData }) => {
   // };
 
   return (
-    <div className="w-[1200px] flex justify-between">
-      <div ref={parentNodeRef} className="w-[800px] relative min-h-[700px]">
-        <div
-          ref={iconsAreaRef}
-          id="iconsArea"
-          className="absolute z-0 w-[800px] min-h-[700px] overflow-hidden "
-          // contentEditable="true"
-          onDragOver={handleDragOver}
-          onDrop={(e) => handleDrop(e)}
-        ></div>
+    <div className="mb-8">
+      <div className="flex">
+        <div ref={parentNodeRef} className="w-[700px] relative min-h-[700px] mr-1 lg:mr-3">
+          <div className="">
+            <div
+              ref={iconsAreaRef}
+              id="iconsArea"
+              className="absolute z-0 w-[700px] min-h-[700px] overflow-hidden "
+              // contentEditable="true"
+              onDragOver={handleDragOver}
+              onDrop={(e) => handleDrop(e)}
+            ></div>
 
-        {images.map((image, index) => (
-          <img
-            key={index}
-            id={image.id}
-            draggable="true"
-            onDragStart={(e) => handleDragStart(e)}
-            onDragEnd={(e) => handleDragEnd(e)}
-            src={image.src}
-            style={{
-              position: "absolute",
-              left: `${image.x}px`,
-              top: `${image.y}px`,
-            }}
-            className={`z-30 cursor-pointer ${image.className}`}
-            alt=""
-          />
-        ))}
+            {images.map((image, index) => (
+              <img
+                key={index}
+                id={image.id}
+                draggable="true"
+                onDragStart={(e) => handleDragStart(e)}
+                onDragEnd={(e) => handleDragEnd(e)}
+                src={image.src}
+                style={{
+                  position: "absolute",
+                  left: `${image.x}px`,
+                  top: `${image.y}px`,
+                }}
+                className={`z-30 ${image.className}`}
+                alt=""
+              />
+            ))}
 
-        <div ref={quillParentRef} className=" rounded-lg border z-10 absolute bg-white w-[800px] ">
-          <QuillEditor
-            handleParentSetState={handleParentSetState}
-            quillContents={quillContents}
-          ></QuillEditor>
+            <div
+              ref={quillParentRef}
+              className=" rounded-lg border z-10 absolute bg-white w-[700px] "
+            >
+              <QuillEditor
+                handleParentSetState={handleParentSetState}
+                quillContents={quillContents}
+              ></QuillEditor>
+            </div>
+          </div>
         </div>
-      </div>
-      <div className="w-[350px] sticky top-5">
-        <SideBar></SideBar>
+
+        <div
+          ref={deleteBoxRef}
+          className={`z-30 transition-all duration-300 ease-in-out border-2 border-red-600 bg-white rounded-full p-2 fixed left-1/2 ${
+            isDragging ? "top-[80px]" : "-top-[80px]" // ドラッグ中のみ表示
+          }`}
+          onDragOver={handleDragOver}
+          onDrop={(e) => handleDeleteDrop(e)}
+        >
+          <img src="/ゴミ箱-赤.png" className="size-8" alt="" />
+        </div>
+        <div className="relative">
+          <div className="flex flex-col gap-3 w-[50px] lg:w-[160px] xl:w-[340px] ">
+            {/* <div className="flex flex-col lg:flex-row">
+              <button
+                className="h-[36px] font-bold mb-1 text-sm lg:mr-2  lg:px-5 lg:text-base  text-white bg-sky-500 border-neutral-500 rounded-full hover:bg-sky-600"
+                onClick={handleSave}
+              >
+                保存
+              </button>
+              <button
+                className="h-[36px] font-bold text-sm lg:mr-2  lg:px-5 lg:text-base text-white bg-red-500 border-neutral-500 rounded-full hover:bg-red-600"
+                onClick={handleDelete}
+              >
+                削除
+              </button>
+            </div> */}
+            {/* <SideBar></SideBar> */}
+            <IconList></IconList>
+            <ColorGuide></ColorGuide>
+          </div>
+        </div>
       </div>
     </div>
   );
