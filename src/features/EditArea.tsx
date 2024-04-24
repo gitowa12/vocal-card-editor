@@ -312,7 +312,7 @@ const EditArea = ({ id, quillData, iconsData, titleData, artistData }) => {
                 left: `${image.x}px`,
                 top: `${image.y}px`,
               }}
-              className={`z-30 ${image.className} `}
+              className={`z-30 ${image.className}`}
               alt=""
             />
           ))}

@@ -12,7 +12,7 @@ import { content } from "html2canvas/dist/types/css/property-descriptors/content
 
 const toolbarOptions = [
   [
-    // { color: ["coral", "lightskyblue", "gold", "lightgreen", "lightgray"] },
+    { color: ["coral", "lightskyblue", "gold", "lightgreen", "lightgray"] },
     // { background: ["coral", "lightskyblue", "gold", "lightgreen", "lightgray"] },
   ], // dropdown with defaults from theme
   ["bold", "underline"], // toggled buttons
@@ -69,22 +69,22 @@ const QuillEditor = ({ handleParentSetState, quillContents }) => {
     buttonContainer.classList.add("ql-formats");
 
     Color.forEach((el) => {
-      const customButton = document.createElement("button");
-      customButton.value = el.colorCode;
-      customButton.style.width = "16px";
-      customButton.style.height = "16px";
-      customButton.style.margin = "2px";
+      const customButton_bg = document.createElement("button");
+      customButton_bg.value = el.colorCode;
+      customButton_bg.style.width = "16px";
+      customButton_bg.style.height = "16px";
+      customButton_bg.style.margin = "2px";
       // console.log(el);
 
-      customButton.style.backgroundColor = el.colorCode;
-      customButton.onclick = (e) => {
+      customButton_bg.style.backgroundColor = el.colorCode;
+      customButton_bg.onclick = (e) => {
         const target = e.target as HTMLButtonElement;
         const color = target.value; // ボタンがクリックされたときの動作を定義
 
         quill.format("background", color);
         // console.log("カスタムボタンがクリックされました");
       };
-      buttonContainer.appendChild(customButton);
+      buttonContainer.appendChild(customButton_bg);
     });
 
     const toolbar = document.querySelector(".ql-toolbar"); // カスタムボタンをツールバーに追加

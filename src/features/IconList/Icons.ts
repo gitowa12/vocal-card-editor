@@ -2,17 +2,17 @@ export const Icons = [
   {
     name: "ブレス",
     src: "/ブレス.svg",
-    className: "w-[22px] pt-[4px]",
+    className: "w-[24px] pt-[6px]",
   },
   {
     name: "区切り",
     src: "/区切り.svg",
-    className: "h-[34px]",
+    className: "h-[36px]",
   },
   {
     name: "アクセント",
     src: "/アクセント.svg",
-    className: "w-[22px] pt-[4px]",
+    className: "w-[20px] pt-[6px]",
   },
   {
     name: "ファルセット",
@@ -32,16 +32,16 @@ export const Icons = [
   {
     name: "フォール",
     src: "/フォール.svg",
-    className: "",
+    className: "w-[26px]",
   },
   {
     name: "しゃくり",
     src: "/しゃくり.svg",
-    className: "",
+    className: "w-[26px]",
   },
   {
     name: "こぶし",
     src: "/こぶし.svg",
-    className: "w-[32px]",
+    className: "w-[30px]",
   },
 ];
