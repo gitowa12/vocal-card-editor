@@ -3,8 +3,8 @@ import Color from "./Color";
 
 const ColorGuide = () => {
   return (
-    <div id="Highlight" className="hidden lg:block bg-white border rounded-lg p-3 xl:p-4">
-      <p className="mb-1 xl:mb-3 xl:text-xl font-bold">カラーガイド</p>
+    <div id="Highlight" className="shadow hidden lg:block bg-white border rounded-xl p-3 xl:p-4">
+      <p className="lg:mb-1 xl:mb-2 xl:text-xl font-bold">カラーガイド</p>
       <div className="grid gap-2 xl:grid-cols-2">
         {Color.map((el) => (
           <p

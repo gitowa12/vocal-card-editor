@@ -1,20 +1,19 @@
-// "use client";
-
-import CreateNewButton from "@/features/CreateNewButton";
-
 import { formatDate } from "@/utils/formatDate";
 import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { EditorData } from "@/types";
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import { AcroFormButton } from "jspdf";
 import { supabase } from "@/utils/supabaseClient";
-import { createClient } from "@/utils/supabase/server";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
+import { createClient } from "@/utils/supabase/server";
+import { headers } from "next/headers";
+
+// const API_URL = process.env.NEXT_PUBLIC_API_URL;
 // const getAll = async () => {
 //   const res = await fetch(`${API_URL}/api/editor`, {
 //     cache: "no-store",
+//     headers: headers(),
 //   });
 
 //   if (res.status === 404) {
@@ -23,27 +22,48 @@ const API_URL = process.env.NEXT_PUBLIC_API_URL;
 
 //   // console.log(res);
 //   const result = await res.json();
-//   console.log(result.data);
+//   // console.log(result.data);
 //   return result.data;
 //   // console.log("result", result);
 // };
 
 const List = async ({ params }: { params: { id: string } }) => {
-  // const result = await getAll();
   const supabase = createClient();
+
+  const getSession = async () => {
+    const { data, error } = await supabase.auth.getSession(); // ログインのセッションを取得する処理
+    if (error) {
+      console.error("Error", error);
+      return;
+    }
+    if (!data.session) {
+      return false;
+    }
+    console.log(data);
+    return true;
+  };
+
+  const isSession = await getSession();
+
+  if (!isSession) {
+    console.log("ログインしてこい");
+    // redirect(`/`);
+  }
+
   const getData = async () => {
     try {
       const { data, error } = await supabase
         .from("editorData")
         .select("*")
         .order("updated_at", { ascending: false });
-      console.log("Success", data);
+      // console.log("Success", data);
       return data;
     } catch (error) {
       return console.log("Error", error);
     }
   };
   const res = await getData();
+  // const res = await getAll();
 
   return (
     <div className="max-w-[1280px] min-h-svh mx-auto flex flex-col items-center py-10 px-4">
@@ -55,7 +75,7 @@ const List = async ({ params }: { params: { id: string } }) => {
         <div className="grid gap-4 grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
           {res?.map((item) => (
             <Link key={item.id} href={`../editor/${item.id}`} className="inline-block">
-              <div className="flex flex-col justify-between w-[240px] h-[130px]  rounded-lg bg-white  p-4 border shadow  transition hover:bg-white hover:shadow-xl">
+              <div className="flex flex-col justify-between w-[240px] h-[130px]  rounded-lg bg-white  p-4 border shadow transition hover:bg-white hover:shadow-xl">
                 <div>
                   <p className="text-3xl mb-1 font-medium">{item.title}</p>
                   <p>{item.artist}</p>
@@ -67,20 +87,6 @@ const List = async ({ params }: { params: { id: string } }) => {
           ))}
         </div>
       </div>
-      {/* <div className="flex flex-wrap xl:w-[1260px]">
-        {res?.map((item) => (
-          <Link key={item.id} href={`../editor/${item.id}`} className="inline-block">
-            <div className="flex flex-col justify-between w-[276px] h-[130px] m-3 rounded-lg bg-white  p-4 border shadow  transition hover:bg-white hover:shadow-xl">
-              <div>
-                <p className="text-3xl mb-1 font-medium">{item.title}</p>
-                <p>{item.artist}</p>
-              </div>
-
-              <p className="text-xs">{item.updated_at ? item.updated_at : item.created_at}</p>
-            </div>
-          </Link>
-        ))}
-      </div> */}
     </div>
   );
 };
