@@ -1,12 +1,13 @@
 // import { supabase } from "@/utils/supabaseClient";
 import { createClient } from "@/utils/supabase/server";
+
 import { NextApiRequest, NextApiResponse } from "next";
+import { headers } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
 export const GET = async (req: NextRequest, res: NextResponse) => {
-  // const searchParams = req.nextUrl.searchParams;
-  // const query = searchParams.get();
   const supabase = createClient();
+  // console.log("クッキーだよ", headers());
 
   try {
     const { data, error } = await supabase

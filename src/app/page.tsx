@@ -56,7 +56,7 @@ export default function Home() {
         </div>
       </section>
       <section className="mb-[64px]">
-        <div className="w-[400px] flex flex-col border items-center  bg-white p-8 rounded-lg">
+        <div className="shadow w-[400px] flex flex-col border items-center  bg-white p-8 rounded-xl">
           <p className=" mb-3 font-bold">ログインしてはじめましょう</p>
           <div className="relative z-0"></div>
           <LoginButton></LoginButton>

@@ -272,7 +272,7 @@ const EditArea_Home = ({ id, quillData, iconsData, titleData, artistData }) => {
   return (
     <div className="mb-8">
       <div className="flex">
-        <div ref={parentNodeRef} className="w-[700px] relative min-h-[700px] mr-1 lg:mr-3">
+        <div ref={parentNodeRef} className=" w-[700px] relative min-h-[700px] mr-1 lg:mr-3">
           <div className="">
             <div
               ref={iconsAreaRef}
@@ -303,7 +303,7 @@ const EditArea_Home = ({ id, quillData, iconsData, titleData, artistData }) => {
 
             <div
               ref={quillParentRef}
-              className=" rounded-lg border z-10 absolute bg-white w-[700px] "
+              className="shadow rounded-xl border z-10 absolute bg-white w-[700px] "
             >
               <QuillEditor
                 handleParentSetState={handleParentSetState}

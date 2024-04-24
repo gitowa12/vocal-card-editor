@@ -3,7 +3,7 @@ import React from "react";
 const Terms = () => {
   return (
     <div className="max-w-[960px] px-4 mx-auto my-[64px]">
-      <div className="bg-white rounded p-14 leading-relaxed">
+      <div className="border bg-white rounded shadow p-14 leading-relaxed">
         <div className="mb-8">
           <h1 className="text-center mb-6 font-bold text-3xl">利用規約</h1>
           <p>

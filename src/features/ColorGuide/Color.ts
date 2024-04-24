@@ -1,14 +1,14 @@
 const Color = [
   { name: "アクセント", color: "red", colorCode: "#f87171" },
   { name: "ファルセット", color: "cyan", colorCode: "#7dd3fc" },
-  { name: "ビブラート", color: "green", colorCode: "#22c55e" },
   { name: "ロングトーン", color: "orange", colorCode: "#fb923c" },
+  { name: "ビブラート", color: "green", colorCode: "#22c55e" },
   { name: "フォール", color: "purplered", colorCode: "#c084fc" },
+  { name: "しゃくり", color: "yellow", colorCode: "#facc15" },
+  { name: "こぶし", color: "blue", colorCode: "#3b82f6" },
   { name: "エッジボイス", color: "slate", colorCode: "#94a3b8" },
   { name: "がなり", color: "neutral", colorCode: "#737373" },
-  { name: "", color: "blue", colorCode: "#3b82f6" },
-  { name: " ", color: "pink", colorCode: "#f472b6" },
-  { name: "", color: "yellow", colorCode: "#facc15" },
+  // { name: " ", color: "pink", colorCode: "#f472b6" },
 ];
 
 export default Color;

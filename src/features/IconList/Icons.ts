@@ -2,17 +2,27 @@ export const Icons = [
   {
     name: "ブレス",
     src: "/ブレス.svg",
-    className: "size-4",
+    className: "w-[22px] pt-[4px]",
   },
   {
     name: "区切り",
     src: "/区切り.svg",
-    className: "h-[30px]",
+    className: "h-[34px]",
   },
   {
     name: "アクセント",
     src: "/アクセント.svg",
-    className: "size-4",
+    className: "w-[22px] pt-[4px]",
+  },
+  {
+    name: "ファルセット",
+    src: "/ファルセット.svg",
+    className: "",
+  },
+  {
+    name: "ロングトーン",
+    src: "/ロングトーン.svg",
+    className: "",
   },
   {
     name: "ビブラート",
@@ -25,11 +35,6 @@ export const Icons = [
     className: "",
   },
   {
-    name: "ロングトーン",
-    src: "/ロングトーン.svg",
-    className: "",
-  },
-  {
     name: "しゃくり",
     src: "/しゃくり.svg",
     className: "",
@@ -37,11 +42,6 @@ export const Icons = [
   {
     name: "こぶし",
     src: "/こぶし.svg",
-    className: "",
-  },
-  {
-    name: "ファルセット",
-    src: "/ファルセット.svg",
-    className: "",
+    className: "w-[32px]",
   },
 ];

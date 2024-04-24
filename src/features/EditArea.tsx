@@ -288,7 +288,7 @@ const EditArea = ({ id, quillData, iconsData, titleData, artistData }) => {
           value={artist}
         />
       </div>
-      <div className="flex ">
+      <div className="flex">
         <div ref={parentNodeRef} className="size-px w-[700px] relative min-h-[700px] mr-1 lg:mr-3">
           <div
             ref={iconsAreaRef}
@@ -312,14 +312,14 @@ const EditArea = ({ id, quillData, iconsData, titleData, artistData }) => {
                 left: `${image.x}px`,
                 top: `${image.y}px`,
               }}
-              className={`z-30 ${image.className}`}
+              className={`z-30 ${image.className} `}
               alt=""
             />
           ))}
 
           <div
             ref={quillParentRef}
-            className=" rounded-lg border z-10 absolute bg-white w-[700px] "
+            className="shadow rounded-xl border z-10 absolute bg-white w-[700px] "
           >
             <QuillEditor
               handleParentSetState={handleParentSetState}
@@ -339,16 +339,16 @@ const EditArea = ({ id, quillData, iconsData, titleData, artistData }) => {
           <img src="/ゴミ箱-赤.png" className="size-8" alt="" />
         </div>
         <div className="relative">
-          <div className="flex flex-col gap-3 w-[50px] lg:w-[160px] xl:w-[340px] sticky top-5">
+          <div className="flex flex-col gap-1 lg:gap-3 w-[50px] lg:w-[160px] xl:w-[340px] sticky top-5">
             <div className="flex flex-col lg:flex-row">
               <button
-                className="h-[36px] font-bold mb-1 text-sm lg:mr-2  lg:px-5 lg:text-base  text-white bg-sky-500 border-neutral-500 rounded-full hover:bg-sky-600"
+                className="shadow h-[26px] mb-1 text-xs lg:mb-0 lg:h-[36px] lg:mr-2 lg:px-5 lg:text-base  text-white bg-sky-500 border-neutral-500 rounded-full hover:bg-sky-600"
                 onClick={handleSave}
               >
                 保存
               </button>
               <button
-                className="h-[36px] font-bold text-sm lg:mr-2  lg:px-5 lg:text-base text-white bg-red-500 border-neutral-500 rounded-full hover:bg-red-600"
+                className="shadow h-[26px] text-xs lg:h-[36px] lg:mr-2 lg:px-5 lg:text-base text-white bg-red-500 border-neutral-500 rounded-full hover:bg-red-600"
                 onClick={handleDelete}
               >
                 削除

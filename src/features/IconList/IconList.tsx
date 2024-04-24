@@ -3,6 +3,7 @@ import { Icons } from "./Icons";
 
 const IconList = () => {
   const handleDragStart = (e: React.DragEvent<HTMLDivElement>) => {
+    console.log(e);
     const target = e.target as HTMLImageElement;
     const name = target.id;
     const imageSrc = target.src; // ドラッグされた画像のsrcを取得
@@ -28,11 +29,14 @@ const IconList = () => {
   return (
     <div
       id="icons"
-      className={`bg-white rounded-lg border lg:p-3 xl:p-4`}
+      className={`shadow bg-white rounded-xl border lg:p-3 xl:p-4`}
       onDragStart={(e) => handleDragStart(e)}
       // onDragEnd={handleDragEnd}
     >
-      <p className="mb-1 hidden lg:inline xl:text-xl font-bold">テクニック</p>
+      <div className="hidden lg:block">
+        <p className="font-bold lg:mb-1 xl:mb-2 xl:text-xl ">テクニック</p>
+      </div>
+
       <div className=" flex justify-center flex-wrap lg:justify-between ">
         {Icons.map((icon) => (
           <div key={icon.name} className="flex items-center">
@@ -40,11 +44,11 @@ const IconList = () => {
               <div className="size-9 xl:size-10 my-1 lg:m-1 rounded-full border bg-neutral-100 flex justify-center items-center">
                 <img
                   id={icon.name}
-                  className={`cursor-pointer ${
-                    icon.className !== "" ? `${icon.className}` : "size-6"
+                  className={`cursor-pointer p-1 ${
+                    icon.className !== "" ? `${icon.className}` : "w-[28px]"
                   }`}
-                  src={icon.src}
                   draggable="true"
+                  src={icon.src}
                   alt={icon.name}
                 ></img>
               </div>
