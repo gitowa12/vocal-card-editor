@@ -3,11 +3,9 @@
 import React, { createElement, useEffect, useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import dynamic from "next/dynamic";
-import SideBar from "./SideBar";
 import { useParams, useRouter } from "next/navigation";
 import { ImageInfo } from "@/types";
 import { createClient } from "@/utils/supabase/client";
-import { Icons } from "./IconList/Icons";
 import IconList from "./IconList/IconList";
 import ColorGuide from "./ColorGuide/ColorGuide";
 
