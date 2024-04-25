@@ -26,14 +26,14 @@ const Editor = async ({ params }: { params: { id: string } }) => {
     if (!data.session) {
       return false;
     }
-    console.log(data);
+    // console.log(data);
     return true;
   };
 
   const isSession = await getSession();
 
   if (!isSession) {
-    console.log("ログインしてこい");
+    // console.log("ログインしてこい");
     redirect(`/`);
   }
 
@@ -62,7 +62,7 @@ const Editor = async ({ params }: { params: { id: string } }) => {
   const titleData = data.title;
   const artistData = data.artist;
 
-  console.log("quillData", quillData);
+  // console.log("quillData", quillData);
 
   return (
     <div className="max-w-[1280px] min-h-svh mx-auto lg:px-4 ">
