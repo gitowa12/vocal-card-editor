@@ -9,7 +9,7 @@ import { supabase } from "@/utils/supabaseClient";
 import { createClient } from "@/utils/supabase/server";
 import { headers } from "next/headers";
 
-// const API_URL = process.env.NEXT_PUBLIC_API_URL;
+// const API_URL = process.env.NEXT_PUBLIC_BASE_URL;
 // const getAll = async () => {
 //   const res = await fetch(`${API_URL}/api/editor`, {
 //     cache: "no-store",

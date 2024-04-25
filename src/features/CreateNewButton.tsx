@@ -4,7 +4,7 @@ import { createClient } from "@/utils/supabase/client";
 import { notFound, useRouter } from "next/navigation";
 import React, { useEffect } from "react";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
+const API_URL = process.env.NEXT_PUBLIC_BASE_URL;
 
 // const addData = async () => {
 //   const res = await fetch(`${API_URL}/api/editor`, {

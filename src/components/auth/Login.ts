@@ -10,7 +10,7 @@ export const Login = async () => {
           access_type: "offline",
           prompt: "consent",
         },
-        redirectTo: "https://vocal-card-editor-cgtp7w572-gitowa12s-projects.vercel.app",
+        redirectTo: process.env.NEXT_PUBLIC_BASE_URL,
       },
     });
     console.log("User logged in", data);

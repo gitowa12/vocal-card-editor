@@ -16,7 +16,7 @@ const QuillEditor = dynamic(() => import("./QuillEditor/QuillEditor"), {
 });
 
 // const editEditor = async (id: string | string[], body: string) => {
-//   const API_URL = process.env.NEXT_PUBLIC_API_URL;
+//   const API_URL = process.env.NEXT_PUBLIC_BASE_URL;
 //   const res = await fetch(`${API_URL}/api/editor/${id}/`, {
 //     method: "PUT",
 //     body: body,
@@ -27,7 +27,7 @@ const QuillEditor = dynamic(() => import("./QuillEditor/QuillEditor"), {
 // };
 
 // const deleteEditor = async (id: string | string[]) => {
-//   const API_URL = process.env.NEXT_PUBLIC_API_URL;
+//   const API_URL = process.env.NEXT_PUBLIC_BASE_URL;
 //   const res = await fetch(`${API_URL}/api/editor/${id}/`, {
 //     method: "DELETE",
 //     cache: "no-store",

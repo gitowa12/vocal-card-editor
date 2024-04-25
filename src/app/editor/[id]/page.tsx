@@ -4,7 +4,7 @@ import { createClient } from "@/utils/supabase/server";
 import { redirect } from "next/navigation";
 import React from "react";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL;
+const API_URL = process.env.NEXT_PUBLIC_BASE_URL;
 const getEditor = async (id: string) => {
   const res = await fetch(`${API_URL}/api/editor/${id}/`, {
     method: "GET",
