@@ -10,7 +10,7 @@ export const Login = async () => {
           access_type: "offline",
           prompt: "consent",
         },
-        redirectTo: "http://localhost:3000/auth/callback/",
+        redirectTo: "/auth/callback/",
       },
     });
     console.log("User logged in", data);
