@@ -1,8 +1,6 @@
 import Link from "next/link";
-import React, { Suspense, useEffect, useState } from "react";
-import LoginForm from "../auth/UserIcon";
-import Image from "next/image";
-import Loading from "@/app/loading";
+import React from "react";
+
 import LoginButton from "../auth/LoginButton";
 import UserIcon from "../auth/UserIcon";
 import { createClient } from "@/utils/supabase/server";
