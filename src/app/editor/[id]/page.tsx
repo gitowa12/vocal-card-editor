@@ -1,7 +1,7 @@
 import EditArea from "@/features/EditArea";
 import { createClient } from "@/utils/supabase/server";
 // import { createClient } from "@/utils/supabase/server";
-import { notFound, redirect, useParams } from "next/navigation";
+import { redirect } from "next/navigation";
 import React from "react";
 
 const API_URL = process.env.NEXT_PUBLIC_API_URL;

@@ -9,6 +9,7 @@ import Color from "../ColorGuide/Color";
 import { NotoSansJP, YuGothic } from "../../styles/fonts";
 import { supabase } from "../../utils/supabaseClient";
 import { content } from "html2canvas/dist/types/css/property-descriptors/content";
+import { Delta } from "quill/core";
 
 const toolbarOptions = [
   [
@@ -25,7 +26,12 @@ const toolbarOptions = [
 // HTMLDivElementにquillプロパティをオプショナルで追加する型を定義
 type EditorElement = HTMLDivElement & { quill?: Quill };
 
-const QuillEditor = ({ handleParentSetState, quillContents }) => {
+type Props = {
+  handleParentSetState: (newValue: Delta) => void;
+  quillContents: any;
+};
+
+const QuillEditor: React.FC<Props> = ({ handleParentSetState, quillContents }) => {
   const containerRef = useRef(null);
   const editorRef = useRef<EditorElement>(null);
 

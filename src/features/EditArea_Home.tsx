@@ -3,13 +3,12 @@
 import React, { createElement, useEffect, useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import dynamic from "next/dynamic";
-import SideBar from "./SideBar";
 import { useParams, useRouter } from "next/navigation";
-import { ImageInfo } from "@/types";
+import { EditAreaProps, ImageInfo } from "@/types";
 import { createClient } from "@/utils/supabase/client";
-import { Icons } from "./IconList/Icons";
 import IconList from "./IconList/IconList";
 import ColorGuide from "./ColorGuide/ColorGuide";
+import { Delta } from "quill/core";
 
 // Quillエディタをクライアントサイドでのみ読み込む
 const QuillEditor = dynamic(() => import("./QuillEditor/QuillEditor"), {
@@ -36,7 +35,13 @@ const QuillEditor = dynamic(() => import("./QuillEditor/QuillEditor"), {
 //   return res.json();
 // };
 
-const EditArea_Home = ({ id, quillData, iconsData, titleData, artistData }) => {
+const EditArea_Home: React.FC<EditAreaProps> = ({
+  id,
+  quillData,
+  iconsData,
+  titleData,
+  artistData,
+}) => {
   const router = useRouter();
   const params = useParams();
   const supabase = createClient();
@@ -207,66 +212,45 @@ const EditArea_Home = ({ id, quillData, iconsData, titleData, artistData }) => {
     refChangeZindex(iconsAreaRef, 0);
   };
 
-  const handleParentSetState = (newValue: string) => {
+  const handleParentSetState = (newValue: Delta): void => {
     setQuillContents(newValue);
-    // setQuillContents(obj);
   };
 
-  //保存apiを実行
-  const handleSave = async () => {
-    const id = params.id;
-
-    try {
-      const { data, error } = await supabase
-        .from("editorData")
-        .update({
-          quillContents: JSON.stringify(quillContents),
-          iconsData: JSON.stringify(images),
-          title: title,
-          artist: artist,
-        })
-        .eq("id", id)
-        .select();
-
-      console.log("Success", data);
-    } catch (error) {
-      console.error("Error", error);
-    }
-
-    router.push(`/list`);
-    router.refresh();
-  };
   // //保存apiを実行
   // const handleSave = async () => {
   //   const id = params.id;
 
-  //   const body = JSON.stringify({
-  //     quillData: quillContents,
-  //     icons: images,
-  //     title: title,
-  //     artist: artist,
-  //   });
+  //   try {
+  //     const { data, error } = await supabase
+  //       .from("editorData")
+  //       .update({
+  //         quillContents: JSON.stringify(quillContents),
+  //         iconsData: JSON.stringify(images),
+  //         title: title,
+  //         artist: artist,
+  //       })
+  //       .eq("id", id)
+  //       .select();
 
-  //   const res = await editEditor(id, body);
-  //   console.log(res);
+  //     console.log("Success", data);
+  //   } catch (error) {
+  //     console.error("Error", error);
+  //   }
+
   //   router.push(`/list`);
+  //   router.refresh();
   // };
 
-  const handleDelete = async () => {
-    const id = params.id;
-    try {
-      const { error, status } = await supabase.from("editorData").delete().eq("id", id);
-      console.log("Success");
-      router.push(`/list`);
-      router.refresh();
-    } catch (error) {
-      console.error("Error", error);
-    }
-  };
   // const handleDelete = async () => {
   //   const id = params.id;
-  //   await deleteEditor(id);
-  //   router.push(`/list`);
+  //   try {
+  //     const { error, status } = await supabase.from("editorData").delete().eq("id", id);
+  //     console.log("Success");
+  //     router.push(`/list`);
+  //     router.refresh();
+  //   } catch (error) {
+  //     console.error("Error", error);
+  //   }
   // };
 
   return (

@@ -46,6 +46,7 @@ const CreateNewButton = () => {
         .select();
 
       console.log("成功したよ", data);
+      if (!data) return;
       const id = data[0].id;
       router.push(`/editor/${id}`);
       router.refresh();

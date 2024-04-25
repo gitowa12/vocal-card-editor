@@ -15,6 +15,6 @@ export const Login = async () => {
     });
     console.log("User logged in", data);
   } catch (error) {
-    console.error("Login error", error.message);
+    console.error("Login error", error);
   }
 };

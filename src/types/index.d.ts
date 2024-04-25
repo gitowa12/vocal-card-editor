@@ -19,3 +19,11 @@ export type ImageInfo = {
   x: number;
   y: number;
 };
+
+export type EditAreaProps = {
+  id: string;
+  quillData: any;
+  iconsData: any;
+  titleData: string;
+  artistData: string;
+};

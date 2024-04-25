@@ -4,10 +4,11 @@ import React, { useEffect, useRef, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import dynamic from "next/dynamic";
 import { useParams, useRouter } from "next/navigation";
-import { ImageInfo } from "@/types";
+import { EditAreaProps, ImageInfo } from "@/types";
 import { createClient } from "@/utils/supabase/client";
 import IconList from "./IconList/IconList";
 import ColorGuide from "./ColorGuide/ColorGuide";
+import { Delta } from "quill/core";
 
 // Quillエディタをクライアントサイドでのみ読み込む
 const QuillEditor = dynamic(() => import("./QuillEditor/QuillEditor"), {
@@ -34,7 +35,7 @@ const QuillEditor = dynamic(() => import("./QuillEditor/QuillEditor"), {
 //   return res.json();
 // };
 
-const EditArea = ({ id, quillData, iconsData, titleData, artistData }) => {
+const EditArea: React.FC<EditAreaProps> = ({ id, quillData, iconsData, titleData, artistData }) => {
   const router = useRouter();
   const params = useParams();
   const supabase = createClient();
@@ -204,9 +205,8 @@ const EditArea = ({ id, quillData, iconsData, titleData, artistData }) => {
     refChangeZindex(iconsAreaRef, 0);
   };
 
-  const handleParentSetState = (newValue: string) => {
+  const handleParentSetState = (newValue: Delta): void => {
     setQuillContents(newValue);
-    // setQuillContents(obj);
   };
 
   //保存apiを実行
@@ -233,21 +233,6 @@ const EditArea = ({ id, quillData, iconsData, titleData, artistData }) => {
     router.push(`/list`);
     router.refresh();
   };
-  // //保存apiを実行
-  // const handleSave = async () => {
-  //   const id = params.id;
-
-  //   const body = JSON.stringify({
-  //     quillData: quillContents,
-  //     icons: images,
-  //     title: title,
-  //     artist: artist,
-  //   });
-
-  //   const res = await editEditor(id, body);
-  //   console.log(res);
-  //   router.push(`/list`);
-  // };
 
   const handleDelete = async () => {
     const id = params.id;
@@ -260,11 +245,6 @@ const EditArea = ({ id, quillData, iconsData, titleData, artistData }) => {
       console.error("Error", error);
     }
   };
-  // const handleDelete = async () => {
-  //   const id = params.id;
-  //   await deleteEditor(id);
-  //   router.push(`/list`);
-  // };
 
   return (
     <div className="mb-8">
