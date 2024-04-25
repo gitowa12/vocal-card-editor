@@ -1,11 +1,33 @@
 "use client";
 
 import React, { useState } from "react";
-import { Login } from "./Login";
+
 import Modal from "react-modal";
+import { createClient } from "@/utils/supabase/client";
 
 const LoginButton = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const supabase = createClient();
+  const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+
+  const Login = async () => {
+    try {
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: "google",
+        options: {
+          queryParams: {
+            access_type: "offline",
+            prompt: "consent",
+          },
+          redirectTo: window.location.origin,
+          // redirectTo: process.env.NEXT_PUBLIC_BASE_URL,
+        },
+      });
+      console.log("User logged in", data);
+    } catch (error) {
+      console.error("Login error", error);
+    }
+  };
 
   // モーダルを開く関数
   function openModal() {
