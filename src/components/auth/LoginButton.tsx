@@ -2,10 +2,7 @@
 
 import React, { useState } from "react";
 import { Login } from "./Login";
-
 import Modal from "react-modal";
-
-import { useRouter } from "next/navigation";
 
 const LoginButton = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);

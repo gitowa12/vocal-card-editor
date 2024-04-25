@@ -48,9 +48,9 @@ export default function Home() {
             <EditArea_Home
               quillData={null}
               iconsData={null}
-              titleData={null}
-              artistData={null}
-              id={null}
+              titleData={""}
+              artistData={""}
+              id={""}
             ></EditArea_Home>
           </div>
         </div>

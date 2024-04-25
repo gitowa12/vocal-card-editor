@@ -10,7 +10,6 @@ import CreateNewButton from "@/features/CreateNewButton";
 
 const Header = async () => {
   const supabase = createClient();
-  let userData = null;
 
   const getSession = async () => {
     const { data, error } = await supabase.auth.getSession(); // ログインのセッションを取得する処理
@@ -39,10 +38,16 @@ const Header = async () => {
   };
 
   const isSession = await getSession();
-
+  let userData = null;
   if (isSession) {
     userData = await getUser();
-    // console.log(userData);
+    console.log("ユーザーデータ", userData);
+  }
+  let currentUserName = "";
+  let profileUrl = "";
+  if (userData) {
+    currentUserName = userData.user_metadata.name;
+    profileUrl = userData.user_metadata.avatar_url;
   }
 
   return (
@@ -81,7 +86,7 @@ const Header = async () => {
                 <CreateNewButton></CreateNewButton>
               </li>
               <li>
-                <UserIcon userData={userData}></UserIcon>
+                <UserIcon currentUserName={currentUserName} profileUrl={profileUrl}></UserIcon>
               </li>
             </ul>
           )}
