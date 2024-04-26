@@ -57,7 +57,6 @@ const Header = async () => {
     const { data, error } = await supabase.auth.getSession(); // ログインのセッションを取得する処理
     if (error) {
       console.error("Errorだよ", error);
-      return;
     }
     if (!data.session) {
       return false;
