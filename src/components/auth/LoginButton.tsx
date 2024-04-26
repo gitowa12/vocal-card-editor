@@ -4,11 +4,14 @@ import React, { useState } from "react";
 
 import Modal from "react-modal";
 import { createClient } from "@/utils/supabase/client";
+import { useRouter } from "next/navigation";
 
 const LoginButton = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const supabase = createClient();
   const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+
+  const router = useRouter();
 
   const Login = async () => {
     try {
@@ -19,8 +22,9 @@ const LoginButton = () => {
             access_type: "offline",
             prompt: "consent",
           },
-          redirectTo: window.location.origin,
+          // redirectTo: window.location.origin,
           // redirectTo: process.env.NEXT_PUBLIC_BASE_URL,
+          redirectTo: `${BASE_URL}/auth/callback`,
         },
       });
       console.log("User logged in", data);

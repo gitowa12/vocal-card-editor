@@ -1,13 +1,57 @@
-import Link from "next/link";
-import React from "react";
+// "use client";
 
+import Link from "next/link";
+import React, { useEffect, useState } from "react";
 import LoginButton from "../auth/LoginButton";
 import UserIcon from "../auth/UserIcon";
-import { createClient } from "@/utils/supabase/server";
 import CreateNewButton from "@/features/CreateNewButton";
+import { createClient } from "@/utils/supabase/server";
+import Nav from "./nav";
+// import { createClient } from "@/utils/supabase/client";
 
 const Header = async () => {
   const supabase = createClient();
+  // const [isSession, setIsSeeeion] = useState<boolean>(false);
+  // const [currentUserName, setCurrentUserName] = useState<string>("");
+  // const [profileUrl, setProfileUrl] = useState<string>("");
+
+  // useEffect(() => {
+  //   const getSession = async () => {
+  //     const { data, error } = await supabase.auth.getSession(); // ログインのセッションを取得する処理
+  //     if (error) {
+  //       console.error("Errorだよ", error);
+  //       return;
+  //     }
+  //     if (!data.session) {
+  //       return false;
+  //     }
+  //     // console.log(data);
+  //     return true;
+  //   };
+
+  //   const getUser = async () => {
+  //     const session = await getSession();
+  //     if (!session) return;
+  //     setIsSeeeion(true);
+
+  //     const {
+  //       data: { user },
+  //       error,
+  //     } = await supabase.auth.getUser(); // ログインのセッションを取得する処理
+
+  //     if (error) {
+  //       console.error("Errorだよ", error);
+  //       return;
+  //     }
+  //     if (user) {
+  //       // console.log(user);
+  //       setCurrentUserName(user.user_metadata.name);
+  //       setProfileUrl(user.user_metadata.avatar_url);
+  //     }
+  //   };
+
+  //   getUser();
+  // }, []);
 
   const getSession = async () => {
     const { data, error } = await supabase.auth.getSession(); // ログインのセッションを取得する処理
@@ -56,7 +100,8 @@ const Header = async () => {
             <img src="/Vird.svg" width="70" alt={""}></img>
           </Link>
         </h1>
-        <nav className="animate-fadein">
+        <Nav session={isSession} userName={currentUserName} profile={profileUrl}></Nav>
+        {/* <nav className="animate-fadein">
           {isSession === false ? (
             <ul className="flex space-x-4 items-center">
               <li>
@@ -88,7 +133,7 @@ const Header = async () => {
               </li>
             </ul>
           )}
-        </nav>
+        </nav> */}
       </div>
     </header>
   );
