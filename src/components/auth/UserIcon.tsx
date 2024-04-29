@@ -67,7 +67,7 @@ const UserIcon: React.FC<Props> = ({ currentUserName, profileUrl }) => {
                 onClick={handleLogout}
               >
                 <div className="flex items-center">
-                  <img src="/logout-line" alt="" className="w-6 mr-2" />
+                  <img src="/logout-line.svg" alt="" className="w-6 mr-2" />
                   <p className="pb-[2px]"> ログアウト</p>
                 </div>
               </button>
