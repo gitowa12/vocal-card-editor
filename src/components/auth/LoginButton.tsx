@@ -4,12 +4,13 @@ import React, { useState } from "react";
 
 import Modal from "react-modal";
 import { createClient } from "@/utils/supabase/client";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 const LoginButton = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const supabase = createClient();
   const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
+  console.log(BASE_URL);
 
   const router = useRouter();
 
@@ -24,6 +25,7 @@ const LoginButton = () => {
           },
           // redirectTo: window.location.origin,
           // redirectTo: process.env.NEXT_PUBLIC_BASE_URL,
+          //この処理がないと、ログイン完了後、セッションをクッキーに保存できない？？
           redirectTo: `${BASE_URL}/auth/callback`,
         },
       });
