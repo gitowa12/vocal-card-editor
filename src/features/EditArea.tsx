@@ -49,8 +49,6 @@ const EditArea: React.FC<EditAreaProps> = ({ id, quillData, iconsData, titleData
   const [images, setImages] = useState<ImageInfo[]>(iconsData || []);
   const [title, setTitle] = useState<string>(titleData);
   const [artist, setArtist] = useState<string>(artistData);
-  const [currentUserId, setcurrentUserId] = useState("");
-  const [jwt, setJwt] = useState("");
 
   //MutationObserverを使って textAreaの高さを監視して、iconsAreaの高さもtextAreaに同期させる
   const config = {
@@ -70,9 +68,20 @@ const EditArea: React.FC<EditAreaProps> = ({ id, quillData, iconsData, titleData
 
     setQuillContents(quillData);
 
-    //Quill内のテキストに合わせてページの高さを変更する処理
-    // console.log(quillParentRef.current);
     if (quillParentRef.current) {
+      //初回のQuillエディタの高さを親要素とかにも設定
+      const quillParentHeight = quillParentRef.current?.clientHeight;
+      const parentNode = parentNodeRef.current;
+      const iconsArea = iconsAreaRef.current;
+      console.log(quillParentHeight);
+      if (parentNode) {
+        parentNode.style.height = `${quillParentHeight}px`;
+      }
+      if (iconsArea) {
+        iconsArea.style.height = `${quillParentHeight}px`;
+      }
+      //Quill内のテキストに合わせてページの高さを変更する処理
+      // console.log(quillParentRef.current);
       const quillParentHeightObserver = new MutationObserver((record, observer) => {
         // const textAreaHeight = textAreaRef.current?.offsetHeight;
         const quillParentHeight = quillParentRef.current?.clientHeight;
@@ -289,13 +298,14 @@ const EditArea: React.FC<EditAreaProps> = ({ id, quillData, iconsData, titleData
 
         <div
           ref={deleteBoxRef}
-          className={`z-30 transition-all duration-300 ease-in-out border-2 border-red-600 bg-white rounded-full p-2 fixed left-1/2 ${
+          className={` z-30 transition-all duration-300 ease-in-out border-2 border-red-600 bg-white rounded-full py-2 px-4 fixed left-1/2 flex items-center justify-center ${
             isDragging ? "top-[80px]" : "-top-[80px]" // ドラッグ中のみ表示
           }`}
           onDragOver={handleDragOver}
           onDrop={(e) => handleDeleteDrop(e)}
         >
-          <img src="/ゴミ箱-赤.png" className="size-8" alt="" />
+          <img src="/ゴミ箱-赤.png" className="size-5 mr-1" alt="" />
+          <p className="text-red-500 font-bold text-xl">ゴミ箱</p>
         </div>
         <div className="relative">
           <div className="flex flex-col gap-1 lg:gap-3 w-[50px] lg:w-[160px] xl:w-[340px] sticky top-5">
