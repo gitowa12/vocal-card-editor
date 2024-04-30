@@ -69,25 +69,6 @@ const EditArea: React.FC<EditAreaProps> = ({ id, quillData, iconsData, titleData
     // );
 
     setQuillContents(quillData);
-    // 現在ログインしているユーザーを取得する処理
-    // const getCurrentUser = async () => {
-    //   // ログインのセッションを取得する処理
-    //   const { data } = await supabase.auth.getSession();
-    //   // セッションがあるときだけ現在ログインしているユーザーを取得する
-    //   if (data.session !== null) {
-    //     // supabaseに用意されている現在ログインしているユーザーを取得する関数
-    //     console.log(data.session);
-    //     setJwt(data.session);
-
-    //     const {
-    //       data: { user },
-    //     } = await supabase.auth.getUser();
-    //     // currentUserにユーザーのメールアドレスを格納
-    //     console.log("user", user);
-    //     setcurrentUserId(user.id);
-    //   }
-    // };
-    // getCurrentUser();
 
     //Quill内のテキストに合わせてページの高さを変更する処理
     // console.log(quillParentRef.current);
