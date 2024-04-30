@@ -10,7 +10,7 @@ const LoginButton = () => {
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const supabase = createClient();
   const BASE_URL = process.env.NEXT_PUBLIC_BASE_URL;
-  console.log(BASE_URL);
+  // console.log(BASE_URL);
 
   const router = useRouter();
 
@@ -29,7 +29,7 @@ const LoginButton = () => {
           redirectTo: `${BASE_URL}/auth/callback`,
         },
       });
-      console.log("User logged in", data);
+      console.log("User logged in");
     } catch (error) {
       console.error("Login error", error);
     }

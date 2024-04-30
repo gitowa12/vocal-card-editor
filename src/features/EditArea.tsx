@@ -73,7 +73,7 @@ const EditArea: React.FC<EditAreaProps> = ({ id, quillData, iconsData, titleData
       const quillParentHeight = quillParentRef.current?.clientHeight;
       const parentNode = parentNodeRef.current;
       const iconsArea = iconsAreaRef.current;
-      console.log(quillParentHeight);
+      // console.log(quillParentHeight);
       if (parentNode) {
         parentNode.style.height = `${quillParentHeight}px`;
       }

@@ -56,7 +56,7 @@ const Header = async () => {
   const getSession = async () => {
     const { data, error } = await supabase.auth.getSession(); // ログインのセッションを取得する処理
     if (error) {
-      console.error("Errorだよ", error);
+      console.error("Error", error);
     }
     if (!data.session) {
       return false;
@@ -82,7 +82,7 @@ const Header = async () => {
   let userData = null;
   if (isSession) {
     userData = await getUser();
-    console.log("ユーザーデータ", userData);
+    // console.log("ユーザーデータ", userData);
   }
   let currentUserName = "";
   let profileUrl = "";
@@ -100,39 +100,6 @@ const Header = async () => {
           </Link>
         </h1>
         <Nav session={isSession} userName={currentUserName} profile={profileUrl}></Nav>
-        {/* <nav className="animate-fadein">
-          {isSession === false ? (
-            <ul className="flex space-x-4 items-center">
-              <li>
-                <Link href="/" className="p-1 hover:text-neutral-400 font-semibold">
-                  ホーム
-                </Link>
-              </li>
-              <li>
-                <LoginButton></LoginButton>
-              </li>
-            </ul>
-          ) : (
-            <ul className="flex space-x-4 items-center">
-              <li>
-                <Link href="/" className="p-1  hover:text-neutral-400  font-semibold">
-                  ホーム
-                </Link>
-              </li>
-              <li>
-                <Link href="/list" className="p-1 hover:text-neutral-400  font-semibold">
-                  一覧
-                </Link>
-              </li>
-              <li>
-                <CreateNewButton></CreateNewButton>
-              </li>
-              <li>
-                <UserIcon currentUserName={currentUserName} profileUrl={profileUrl}></UserIcon>
-              </li>
-            </ul>
-          )}
-        </nav> */}
       </div>
     </header>
   );

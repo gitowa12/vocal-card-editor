@@ -5,7 +5,6 @@ import { EditorData } from "@/types";
 import { notFound, redirect } from "next/navigation";
 import { AcroFormButton } from "jspdf";
 import { supabase } from "@/utils/supabaseClient";
-
 import { createClient } from "@/utils/supabase/server";
 import { headers } from "next/headers";
 
@@ -46,7 +45,7 @@ const List = async ({ params }: { params: { id: string } }) => {
   const isSession = await getSession();
 
   if (!isSession) {
-    console.log("ログインしてこい");
+    console.log("ログインしてください");
     // redirect(`/`);
   }
 
@@ -63,6 +62,10 @@ const List = async ({ params }: { params: { id: string } }) => {
     }
   };
   const res = await getData();
+  const formattedData = res?.map((item) => ({
+    ...item,
+    updated_at: item.updated_at ? formatDate(item.updated_at) : formatDate(item.created_at),
+  }));
   // const res = await getAll();
 
   return (
@@ -72,8 +75,8 @@ const List = async ({ params }: { params: { id: string } }) => {
         <CreateNewButton></CreateNewButton>
       </div> */}
       <div className="flex justify-center">
-        <div className="grid gap-4 grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-          {res?.map((item) => (
+        <div className="grid gap-4 grid-cols-3 lg:grid-cols-4">
+          {formattedData?.map((item) => (
             <Link key={item.id} href={`../editor/${item.id}`} className="inline-block">
               <div className="flex flex-col justify-between w-[240px] h-[130px]  rounded-lg bg-white  p-4 border shadow transition hover:bg-white hover:shadow-xl">
                 <div>
