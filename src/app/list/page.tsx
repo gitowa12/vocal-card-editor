@@ -75,7 +75,7 @@ const List = async ({ params }: { params: { id: string } }) => {
         <CreateNewButton></CreateNewButton>
       </div> */}
       <div className="flex justify-center">
-        <div className="grid gap-4 grid-cols-3 lg:grid-cols-4">
+        <div className="grid gap-3 grid-cols-3 lg:grid-cols-4">
           {formattedData?.map((item) => (
             <Link key={item.id} href={`../editor/${item.id}`} className="inline-block">
               <div className="flex flex-col justify-between w-[240px] h-[130px]  rounded-lg bg-white  p-4 border shadow transition hover:bg-white hover:shadow-xl">
