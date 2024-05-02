@@ -5,13 +5,13 @@ import { redirect } from "next/navigation";
 import React from "react";
 
 const API_URL = process.env.NEXT_PUBLIC_BASE_URL;
-const getEditor = async (id: string) => {
-  const res = await fetch(`${API_URL}/api/editor/${id}/`, {
-    method: "GET",
-    cache: "no-store",
-  });
-  return res.json();
-};
+// const getEditor = async (id: string) => {
+//   const res = await fetch(`${API_URL}/api/editor/${id}/`, {
+//     method: "GET",
+//     cache: "no-store",
+//   });
+//   return res.json();
+// };
 
 const Editor = async ({ params }: { params: { id: string } }) => {
   // const res = await getEditor(params.id);

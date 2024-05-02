@@ -46,7 +46,7 @@ const List = async ({ params }: { params: { id: string } }) => {
 
   if (!isSession) {
     console.log("ログインしてください");
-    // redirect(`/`);
+    redirect(`/`);
   }
 
   const getData = async () => {
