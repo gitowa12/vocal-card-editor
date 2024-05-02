@@ -95,8 +95,9 @@ const Header = async () => {
     <header className="w-full  p-4 bg-white border-b ">
       <div className="max-w-[1280px] mx-auto flex justify-between items-center">
         <h1 className="text-xl font-semibold">
-          <Link href="/" className="flex items-center">
-            <img src="/Vird.svg" width="70" alt={""}></img>
+          <Link href="/" className="flex items-end">
+            <img src="/Vird.svg" width="70" alt={""} className="mr-1"></img>
+            <p className="text-xs">(β)</p>
           </Link>
         </h1>
         <Nav session={isSession} userName={currentUserName} profile={profileUrl}></Nav>

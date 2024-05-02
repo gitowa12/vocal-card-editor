@@ -8,11 +8,16 @@ export default function Home() {
       <section className="mt-[90px] mb-[64px]">
         <div className=" flex flex-col justify-center items-center">
           <div className="w-[700px] mb-10 flex flex-col  justify-center items-center ">
-            <img src="/Vird.svg" alt="" width="130" className="mb-6" />{" "}
+            <div className="flex items-center">
+              <img src="/Vird.svg" alt="" width="130" className="mb-6 mr-1" />
+              <p>(β)</p>
+            </div>
+
             <p className="text-xl">Virdは、歌詞カード作成に特化したテキストエディタです。</p>
             <p className="text-xl">誰でも簡単に歌詞カードを作成できます。</p>
             <p className="text-xl">カラフルなアイコンやハイライトを使って</p>
             <p className="text-xl">あなただけのオリジナル歌詞カードを作りましょう!</p>
+            <p className="mt-2">※ベータ版です。</p>
           </div>
           <div className=" w-[720px] ">
             <img src="/エディタ画面.png" alt="" className="border rounded-xl shadow-md" />
