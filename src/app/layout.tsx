@@ -9,7 +9,7 @@ import Script from "next/script";
 export const metadata: Metadata = {
   title: "Vird",
   description:
-    "Virdは、歌詞カード作成に特化したテキストエディタです。誰でも簡単に歌詞カードを作成できます。 カラフルなアイコンやハイライトを使ってあなただけのオリジナル歌詞カードを作りましょう!",
+    "Virdは、歌詞カード作成に特化したテキストエディタです。誰でも簡単に歌詞カードを作成できます。 カラフルなアイコンやハイライトを使ってあなただけのオリジナル歌詞カードを作りましょう!!",
   viewport: "width=device-width, initial-scale=1.0",
 };
 
