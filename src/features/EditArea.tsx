@@ -211,6 +211,7 @@ const EditArea: React.FC<EditAreaProps> = ({ id, quillData, iconsData, titleData
           iconsData: JSON.stringify(images),
           title: title,
           artist: artist,
+          updated_at: new Date().toISOString(), // 明示的に現在時刻を設定
         })
         .eq("id", id)
         .select();

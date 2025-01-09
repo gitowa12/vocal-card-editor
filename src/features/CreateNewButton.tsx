@@ -42,7 +42,7 @@ const CreateNewButton = () => {
     try {
       const { data, error } = await supabase
         .from("editorData")
-        .insert([{ quillContents: null, iconsData: null }])
+        .insert([{ quillContents: null, iconsData: null, updated_at: new Date().toISOString() }])
         .select();
 
       console.log("成功したよ", data);
