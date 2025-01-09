@@ -54,7 +54,7 @@ const List = async ({ params }: { params: { id: string } }) => {
       const { data, error } = await supabase
         .from("editorData")
         .select("*")
-        .order("COALESCE(title, '')", { ascending: true }); // タイトルがNULLの場合は空文字列扱い
+        .order("updated_at", { ascending: false });
       // console.log("Success", data);
       return data;
     } catch (error) {
