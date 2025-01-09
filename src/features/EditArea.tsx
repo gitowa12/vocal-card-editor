@@ -211,7 +211,6 @@ const EditArea: React.FC<EditAreaProps> = ({ id, quillData, iconsData, titleData
           iconsData: JSON.stringify(images),
           title: title,
           artist: artist,
-          updated_at: new Date().toISOString(),
         })
         .eq("id", id)
         .select();
