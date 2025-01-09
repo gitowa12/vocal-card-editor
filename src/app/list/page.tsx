@@ -80,7 +80,7 @@ const List = async ({ params }: { params: { id: string } }) => {
             <Link key={item.id} href={`../editor/${item.id}`} className="inline-block">
               <div className="flex flex-col justify-between w-[240px] h-[130px]  rounded-lg bg-white  p-4 border shadow transition hover:bg-white hover:shadow-xl">
                 <div>
-                  <p className="text-3xl mb-1 font-medium">{item.title}</p>
+                  <p className="text-3xl mb-1 font-medium">{item.title ? item.title : ""}</p>
                   <p>{item.artist}</p>
                 </div>
 
